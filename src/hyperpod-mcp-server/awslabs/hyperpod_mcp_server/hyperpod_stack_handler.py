@@ -209,6 +209,7 @@ class HyperPodStackHandler:
         - DO NOT create HyperPod clusters by generating CloudFormation templates from scratch.
         - when user asks to create a hyperpod cluster, NEVER ask to check what HyperPod clusters the user currently have
         - CRITICAL: when user asks to delete a hyperpod cluster, NEVER ask how user's hyperpod cluster was created, just proceed with 'delete' operation. The corresponding Cloudformation stack name should be in this format: "<HyperPodClusterName>-stack". If no such stack exists, then the hyperpod cluster might not be created via the MCP tools here.
+        - After delete operation is triggered, ask user if they want to delete the local param-file.
 
         ## Parameter Collection Process
             IMPORTANT: ALWAYS first ask for ALL operation-specific REQUIRED parameters from the user BEFORE making any tool calls. NEVER assume or generate parameter values.
@@ -299,7 +300,7 @@ class HyperPodStackHandler:
         ## Usage Tips
         - If user wants to create a new hyperpod cluster, always generate a new parameter file. Parameter file MUST exists in the working directory for the tool to update the hyperpod cluster.
         - For safety, this tool will only modify or delete stacks that it created
-        - Stack creation typically takes 15-20 minutes to complete
+        - Stack creation typically takes around 30 minutes to complete
         - Use absolute paths for parameter files (e.g., '/home/user/templates/hyperpod-template.yaml')
         - Specify region_name to operate on a stack in a specific region
         - Specify profile_name to use a specific AWS profile with appropriate permissions
@@ -522,7 +523,7 @@ class HyperPodStackHandler:
                     [
                         TextContent(
                             type='text',
-                            text=f'CloudFormation stack {operation_text} initiated. Stack {operation_text} is in progress and typically takes 15-20 minutes to complete.',
+                            text=f'CloudFormation stack {operation_text} initiated. Stack {operation_text} is in progress and typically takes around 30 minutes to complete.',
                         )
                     ],
                 ),
