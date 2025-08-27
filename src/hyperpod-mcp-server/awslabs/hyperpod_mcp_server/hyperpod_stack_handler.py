@@ -306,8 +306,8 @@ class HyperPodStackHandler:
 
         ## Fallback Options:
         - If this tool fails, advise using CloudFormation CLI:
-            - Deploy (create new stack): `aws cloudformation create-stack --stack-name <name> --region <cluster_region> --template-url <url> --parameters <file://params.json> --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM`
-            - Deploy (update existing stack): `aws cloudformation udpate-stack --stack-name <name> --region <cluster_region> --template-url <url> --parameters <file://updated_params.json> --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM`
+            - Deploy (create new stack): `aws cloudformation create-stack --stack-name <name> --region <cluster_region> --template-url <url> --parameters <params_file> --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM`
+            - Deploy (update existing stack): `aws cloudformation udpate-stack --stack-name <name> --region <cluster_region> --template-url <url> --parameters <updated_params_file> --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM`
             - Describe: `aws cloudformation describe-stacks --stack-name <name> --region <cluster_region>`
             - Delete: `aws cloudformation delete-stack --stack-name <name> --region <cluster_region>`
         - Or, as another alternative: advise using AWS SageMaker CLI alternatives:
