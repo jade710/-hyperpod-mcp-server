@@ -673,47 +673,43 @@ class HyperPodClusterNodeHandler:
             log_with_request_id(ctx, LogLevel.ERROR, error_msg)
             return {'isError': True, 'errorMessage': error_msg}
 
+        # First try-catch: Create SageMaker client and prepare parameters
         try:
             sagemaker_client = self.get_sagemaker_client(
                 ctx, region_name=region_name, profile_name=profile_name
             )
-
             params = {'ClusterName': cluster_name, 'InstanceGroups': instance_groups}
+        except Exception as e:
+            error_msg = f'Failed to prepare SageMaker client or parameters: {str(e)}'
+            log_with_request_id(ctx, LogLevel.ERROR, error_msg)
+            return {'isError': True, 'errorMessage': error_msg}
 
+        # Second try-catch: Make the API call
+        try:
             log_with_request_id(
                 ctx,
                 LogLevel.INFO,
                 f'Calling SageMaker update_cluster API with params: {params}',
             )
-            try:
-                response = sagemaker_client.update_cluster(**params)
-                log_with_request_id(
-                    ctx,
-                    LogLevel.INFO,
-                    f'SageMaker update_cluster API response: {response}',
-                )
-            except Exception as e:
-                log_with_request_id(
-                    ctx, LogLevel.ERROR, f'SageMaker update_cluster API error: {str(e)}'
-                )
-                raise
-
-            # Log success
+            response = sagemaker_client.update_cluster(**params)
             log_with_request_id(
                 ctx,
                 LogLevel.INFO,
-                f'Successfully updated SageMaker HyperPod cluster: {cluster_name}',
+                f'SageMaker update_cluster API response: {response}',
             )
-
-            return response
-
         except Exception as e:
-            # Log error
-            error_msg = f'Failed to update SageMaker HyperPod cluster: {str(e)}'
+            error_msg = f'SageMaker update_cluster API error: {str(e)}'
             log_with_request_id(ctx, LogLevel.ERROR, error_msg)
-
-            # Return error response
             return {'isError': True, 'errorMessage': error_msg}
+
+        # Log success
+        log_with_request_id(
+            ctx,
+            LogLevel.INFO,
+            f'Successfully updated SageMaker HyperPod cluster: {cluster_name}',
+        )
+
+        return response
 
     async def _describe_hp_cluster_node(
         self,
