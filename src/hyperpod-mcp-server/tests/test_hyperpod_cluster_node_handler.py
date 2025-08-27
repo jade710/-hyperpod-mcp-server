@@ -1496,8 +1496,8 @@ class TestHyperPodClusterNodeHandler:
             }
 
     @pytest.mark.asyncio
-    async def test_update_hp_cluster_error(self):
-        """Test that update_hp_cluster handles errors correctly."""
+    async def test_update_hp_cluster_api_error(self):
+        """Test that update_hp_cluster handles API call errors correctly in the sequential try-catch structure."""
         # Create a mock MCP server
         mock_mcp = MagicMock()
 
@@ -1509,7 +1509,7 @@ class TestHyperPodClusterNodeHandler:
 
         # Create a mock SageMaker client
         mock_sagemaker_client = MagicMock()
-        mock_sagemaker_client.update_cluster.side_effect = Exception('Test error')
+        mock_sagemaker_client.update_cluster.side_effect = Exception('API call error')
 
         # Mock the get_sagemaker_client method to return our mock client
         with patch.object(
@@ -1535,8 +1535,43 @@ class TestHyperPodClusterNodeHandler:
                 InstanceGroups=[{'InstanceGroupName': 'test-group'}],
             )
 
-            # Verify the result
+            # Verify the result - should have specific error message from the API call try-catch block
+            assert result['isError'] is True
+            assert 'SageMaker update_cluster API error: API call error' in result['errorMessage']
+
+    @pytest.mark.asyncio
+    async def test_update_hp_cluster_client_error(self):
+        """Test that update_hp_cluster handles client creation errors correctly in the sequential try-catch structure."""
+        # Create a mock MCP server
+        mock_mcp = MagicMock()
+
+        # Initialize the HyperPod cluster node handler with the mock MCP server and allow_write=True
+        handler = HyperPodClusterNodeHandler(mock_mcp, allow_write=True)
+
+        # Create a mock context
+        mock_ctx = MagicMock(spec=Context)
+
+        # Mock the get_sagemaker_client method to raise an exception
+        with patch.object(
+            handler, 'get_sagemaker_client', side_effect=Exception('Client creation error')
+        ) as mock_get_client:
+            # Call the update_hp_cluster method
+            result = await handler.update_hp_cluster(
+                ctx=mock_ctx,
+                cluster_name='test-cluster',
+                instance_groups=[{'InstanceGroupName': 'test-group'}],
+                region_name='us-west-2',
+                profile_name='test-profile',
+            )
+
+            # Verify that get_sagemaker_client was called with the correct parameters
+            mock_get_client.assert_called_once_with(
+                mock_ctx, region_name='us-west-2', profile_name='test-profile'
+            )
+
+            # Verify the result - should have specific error message from the client creation try-catch block
             assert result['isError'] is True
             assert (
-                'Failed to update SageMaker HyperPod cluster: Test error' in result['errorMessage']
+                'Failed to prepare SageMaker client or parameters: Client creation error'
+                in result['errorMessage']
             )
