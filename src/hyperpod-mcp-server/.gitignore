@@ -60,4 +60,4 @@ build
 .pypirc
 
 # MCP param
-sagemaker-mcp-*.json
+*-params.json

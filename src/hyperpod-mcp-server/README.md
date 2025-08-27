@@ -270,7 +270,7 @@ The following tools are provided by the HyperPod MCP server for managing Amazon 
 
 #### `manage_hyperpod_stacks`
 
-Manages HyperPod CloudFormation stacks with operations for deploying, describing, and deleting HyperPod clusters and their underlying infrastructure. **Note**: Cluster creation typically takes 15-20 minutes to complete.
+Manages HyperPod CloudFormation stacks with operations for deploying, describing, and deleting HyperPod clusters and their underlying infrastructure. **Note**: Cluster creation typically takes around 30 minutes to complete.
 
 Features:
 
