@@ -17,27 +17,29 @@
 # Mock the imports that might cause issues
 import pytest
 import sys
-from awslabs.hyperpod_mcp_server.hyperpod_cluster_node_handler import HyperPodClusterNodeHandler
-from awslabs.hyperpod_mcp_server.hyperpod_stack_handler import HyperPodStackHandler
+from awslabs.sagemaker_hyperpod_mcp_server.hyperpod_cluster_node_handler import (
+    HyperPodClusterNodeHandler,
+)
+from awslabs.sagemaker_hyperpod_mcp_server.hyperpod_stack_handler import HyperPodStackHandler
 from unittest.mock import MagicMock, patch
 
 
 # Mock modules that might not be installed
 sys.modules['requests_auth_aws_sigv4'] = MagicMock()
 sys.modules['requests'] = MagicMock()
-from awslabs.hyperpod_mcp_server.hyperpod_kb_handler import HyperPodKnowledgeBaseHandler
+from awslabs.sagemaker_hyperpod_mcp_server.hyperpod_kb_handler import HyperPodKnowledgeBaseHandler
 
 
 @pytest.mark.asyncio
 async def test_server_initialization():
     # Test the server initialization by creating a server instance
-    from awslabs.hyperpod_mcp_server.server import create_server
+    from awslabs.sagemaker_hyperpod_mcp_server.server import create_server
 
     # Create a server instance
     server = create_server()
 
     # Test that the server is initialized with the correct name
-    assert server.name == 'awslabs.hyperpod-mcp-server'
+    assert server.name == 'awslabs.sagemaker-hyperpod-mcp-server'
     # Test that the server has the correct instructions
     assert (
         server.instructions is not None
@@ -57,7 +59,7 @@ async def test_server_initialization():
 async def test_command_line_args():
     """Test that the command-line arguments are parsed correctly."""
     import argparse
-    from awslabs.hyperpod_mcp_server.server import main
+    from awslabs.sagemaker_hyperpod_mcp_server.server import main
 
     # Mock the ArgumentParser.parse_args method to return known args
     with patch.object(argparse.ArgumentParser, 'parse_args') as mock_parse_args:
@@ -68,16 +70,18 @@ async def test_command_line_args():
 
         # Mock create_server to return a mock server
         mock_server = MagicMock()
-        with patch('awslabs.hyperpod_mcp_server.server.create_server', return_value=mock_server):
+        with patch(
+            'awslabs.sagemaker_hyperpod_mcp_server.server.create_server', return_value=mock_server
+        ):
             # Mock the handler initialization to verify allow_write is passed
             with patch(
-                'awslabs.hyperpod_mcp_server.server.HyperPodClusterNodeHandler'
+                'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodClusterNodeHandler'
             ) as mock_hyperpod_cluster_node_handler:
                 with patch(
-                    'awslabs.hyperpod_mcp_server.server.HyperPodStackHandler'
+                    'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler'
                 ) as mock_hyperpod_stack_handler:
                     with patch(
-                        'awslabs.hyperpod_mcp_server.server.HyperPodKnowledgeBaseHandler'
+                        'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodKnowledgeBaseHandler'
                     ) as mock_kb_handler:
                         # Call the main function
                         main()
@@ -103,16 +107,18 @@ async def test_command_line_args():
 
         # Mock create_server to return a mock server
         mock_server = MagicMock()
-        with patch('awslabs.hyperpod_mcp_server.server.create_server', return_value=mock_server):
+        with patch(
+            'awslabs.sagemaker_hyperpod_mcp_server.server.create_server', return_value=mock_server
+        ):
             # Mock the handler initialization to verify allow_write is passed
             with patch(
-                'awslabs.hyperpod_mcp_server.server.HyperPodClusterNodeHandler'
+                'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodClusterNodeHandler'
             ) as mock_hyperpod_cluster_node_handler:
                 with patch(
-                    'awslabs.hyperpod_mcp_server.server.HyperPodStackHandler'
+                    'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler'
                 ) as mock_hyperpod_stack_handler:
                     with patch(
-                        'awslabs.hyperpod_mcp_server.server.HyperPodKnowledgeBaseHandler'
+                        'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodKnowledgeBaseHandler'
                     ) as mock_kb_handler:
                         # Call the main function
                         main()
@@ -138,16 +144,18 @@ async def test_command_line_args():
 
         # Mock create_server to return a mock server
         mock_server = MagicMock()
-        with patch('awslabs.hyperpod_mcp_server.server.create_server', return_value=mock_server):
+        with patch(
+            'awslabs.sagemaker_hyperpod_mcp_server.server.create_server', return_value=mock_server
+        ):
             # Mock the handler initialization to verify allow_sensitive_data_access is passed
             with patch(
-                'awslabs.hyperpod_mcp_server.server.HyperPodClusterNodeHandler'
+                'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodClusterNodeHandler'
             ) as mock_hyperpod_cluster_node_handler:
                 with patch(
-                    'awslabs.hyperpod_mcp_server.server.HyperPodStackHandler'
+                    'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler'
                 ) as mock_hyperpod_stack_handler:
                     with patch(
-                        'awslabs.hyperpod_mcp_server.server.HyperPodKnowledgeBaseHandler'
+                        'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodKnowledgeBaseHandler'
                     ) as mock_kb_handler:
                         # Call the main function
                         main()
@@ -173,16 +181,18 @@ async def test_command_line_args():
 
         # Mock create_server to return a mock server
         mock_server = MagicMock()
-        with patch('awslabs.hyperpod_mcp_server.server.create_server', return_value=mock_server):
+        with patch(
+            'awslabs.sagemaker_hyperpod_mcp_server.server.create_server', return_value=mock_server
+        ):
             # Mock the handler initialization to verify both flags are passed
             with patch(
-                'awslabs.hyperpod_mcp_server.server.HyperPodClusterNodeHandler'
+                'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodClusterNodeHandler'
             ) as mock_hyperpod_cluster_node_handler:
                 with patch(
-                    'awslabs.hyperpod_mcp_server.server.HyperPodStackHandler'
+                    'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler'
                 ) as mock_hyperpod_stack_handler:
                     with patch(
-                        'awslabs.hyperpod_mcp_server.server.HyperPodKnowledgeBaseHandler'
+                        'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodKnowledgeBaseHandler'
                     ) as mock_kb_handler:
                         # Call the main function
                         main()

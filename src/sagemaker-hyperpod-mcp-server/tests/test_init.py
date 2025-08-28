@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tests for the awslabs.hyperpod-mcp-server package."""
+"""Tests for the awslabs.sagemaker-hyperpod-mcp-server package."""
 
 import importlib
 import re
@@ -24,30 +24,30 @@ class TestInit:
     def test_version(self):
         """Test that __version__ is defined and follows semantic versioning."""
         # Import the module
-        import awslabs.hyperpod_mcp_server
+        import awslabs.sagemaker_hyperpod_mcp_server
 
         # Check that __version__ is defined
-        assert hasattr(awslabs.hyperpod_mcp_server, '__version__')
+        assert hasattr(awslabs.sagemaker_hyperpod_mcp_server, '__version__')
 
         # Check that __version__ is a string
-        assert isinstance(awslabs.hyperpod_mcp_server.__version__, str)
+        assert isinstance(awslabs.sagemaker_hyperpod_mcp_server.__version__, str)
 
         # Check that __version__ follows semantic versioning (major.minor.patch)
         version_pattern = r'^\d+\.\d+\.\d+$'
-        assert re.match(version_pattern, awslabs.hyperpod_mcp_server.__version__), (
-            f"Version '{awslabs.hyperpod_mcp_server.__version__}' does not follow semantic versioning"
+        assert re.match(version_pattern, awslabs.sagemaker_hyperpod_mcp_server.__version__), (
+            f"Version '{awslabs.sagemaker_hyperpod_mcp_server.__version__}' does not follow semantic versioning"
         )
 
     def test_module_reload(self):
         """Test that the module can be reloaded."""
         # Import the module
-        import awslabs.hyperpod_mcp_server
+        import awslabs.sagemaker_hyperpod_mcp_server
 
         # Store the original version
-        original_version = awslabs.hyperpod_mcp_server.__version__
+        original_version = awslabs.sagemaker_hyperpod_mcp_server.__version__
 
         # Reload the module
-        importlib.reload(awslabs.hyperpod_mcp_server)
+        importlib.reload(awslabs.sagemaker_hyperpod_mcp_server)
 
         # Check that the version is still the same
-        assert awslabs.hyperpod_mcp_server.__version__ == original_version
+        assert awslabs.sagemaker_hyperpod_mcp_server.__version__ == original_version

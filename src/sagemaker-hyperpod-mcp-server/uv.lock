@@ -45,7 +45,7 @@ wheels = [
 ]
 
 [[package]]
-name = "awslabs-hyperpod-mcp-server"
+name = "awslabs-sagemaker-hyperpod-mcp-server"
 version = "0.0.0"
 source = { editable = "." }
 dependencies = [

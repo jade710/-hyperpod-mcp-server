@@ -15,8 +15,8 @@
 """HyperPod cluster node handler for the HyperPod MCP Server."""
 
 import os
-from awslabs.hyperpod_mcp_server.aws_helper import AwsHelper
-from awslabs.hyperpod_mcp_server.consts import (
+from awslabs.sagemaker_hyperpod_mcp_server.aws_helper import AwsHelper
+from awslabs.sagemaker_hyperpod_mcp_server.consts import (
     BATCH_DELETE_OPERATION,
     DESCRIBE_NODE_OPERATION,
     LIST_CLUSTERS_OPERATION,
@@ -25,8 +25,8 @@ from awslabs.hyperpod_mcp_server.consts import (
     SUPPORTED_REGIONS,
     UPDATE_SOFTWARE_OPERATION,
 )
-from awslabs.hyperpod_mcp_server.logging_helper import LogLevel, log_with_request_id
-from awslabs.hyperpod_mcp_server.models import (
+from awslabs.sagemaker_hyperpod_mcp_server.logging_helper import LogLevel, log_with_request_id
+from awslabs.sagemaker_hyperpod_mcp_server.models import (
     BatchDeleteClusterNodesError,
     BatchDeleteClusterNodesResponse,
     ClusterEbsVolumeConfig,

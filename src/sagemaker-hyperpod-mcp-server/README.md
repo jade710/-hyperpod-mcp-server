@@ -89,7 +89,7 @@ This quickstart guide walks you through the steps to configure the Amazon SageMa
 
 | VS Code |
 |:-------:|
-| [![Install on VS Code](https://img.shields.io/badge/Install_on-VS_Code-FF9900?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=HyperPod%20MCP%20Server&config=%7B%22autoApprove%22%3A%5B%5D%2C%22disabled%22%3Afalse%2C%22command%22%3A%22uvx%22%2C%22args%22%3A%5B%22awslabs.hyperpod-mcp-server%40latest%22%2C%22--allow-write%22%2C%22--allow-sensitive-data-access%22%5D%2C%22env%22%3A%7B%22FASTMCP_LOG_LEVEL%22%3A%22ERROR%22%7D%2C%22transportType%22%3A%22stdio%22%7D) |
+| [![Install on VS Code](https://img.shields.io/badge/Install_on-VS_Code-FF9900?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=HyperPod%20MCP%20Server&config=%7B%22autoApprove%22%3A%5B%5D%2C%22disabled%22%3Afalse%2C%22command%22%3A%22uvx%22%2C%22args%22%3A%5B%22awslabs.sagemaker-hyperpod-mcp-server%40latest%22%2C%22--allow-write%22%2C%22--allow-sensitive-data-access%22%5D%2C%22env%22%3A%7B%22FASTMCP_LOG_LEVEL%22%3A%22ERROR%22%7D%2C%22transportType%22%3A%22stdio%22%7D) |
 
 **Set up the Amazon Q Developer CLI**
 
@@ -103,10 +103,10 @@ The example below includes both the `--allow-write` flag for mutating operations
 	```
 	{
 	  "mcpServers": {
-	    "awslabs.hyperpod-mcp-server": {
+	    "awslabs.sagemaker-hyperpod-mcp-server": {
 	      "command": "uvx",
 	      "args": [
-	        "awslabs.hyperpod-mcp-server@latest",
+	        "awslabs.sagemaker-hyperpod-mcp-server@latest",
 	        "--allow-write",
 	        "--allow-sensitive-data-access"
 	      ],
@@ -125,12 +125,12 @@ The example below includes both the `--allow-write` flag for mutating operations
 	```
 	{
 	  "mcpServers": {
-	    "awslabs.hyperpod-mcp-server": {
+	    "awslabs.sagemaker-hyperpod-mcp-server": {
 	      "command": "uvx",
 	      "args": [
 	        "--from",
-	        "awslabs.hyperpod-mcp-server@latest",
-	        "awslabs.hyperpod-mcp-server.exe",
+	        "awslabs.sagemaker-hyperpod-mcp-server@latest",
+	        "awslabs.sagemaker-hyperpod-mcp-server.exe",
 	        "--allow-write",
 	        "--allow-sensitive-data-access"
 	      ],
@@ -146,7 +146,7 @@ The example below includes both the `--allow-write` flag for mutating operations
 
 3. Verify your setup by running the `/tools` command in the Q Developer CLI to see the available HyperPod MCP tools.
 
-Note that this is a basic quickstart. You can enable additional capabilities, such as  combining more MCP servers like the [AWS Documentation MCP Server](https://awslabs.github.io/mcp/servers/aws-documentation-mcp-server/) into a single MCP server definition. To view an example, see the [Installation and Setup](https://github.com/awslabs/mcp?tab=readme-ov-file#installation-and-setup) guide in AWS MCP Servers on GitHub. To view a real-world implementation with application code in context with an MCP server, see the [Server Developer](https://modelcontextprotocol.io/quickstart/server) guide in Anthropic documentation.
+Note that this is a basic quickstart. You can enable additional capabilities, such as combining more MCP servers like the [AWS Documentation MCP Server](https://awslabs.github.io/mcp/servers/aws-documentation-mcp-server/) into a single MCP server definition. To view an example, see the [Installation and Setup](https://github.com/awslabs/mcp?tab=readme-ov-file#installation-and-setup) guide in AWS MCP Servers on GitHub. To view a real-world implementation with application code in context with an MCP server, see the [Server Developer](https://modelcontextprotocol.io/quickstart/server) guide in Anthropic documentation.
 
 ## Configurations
 
@@ -158,10 +158,10 @@ The `args` field in the MCP server definition specifies the command-line argumen
 ```
 {
   "mcpServers": {
-    "awslabs.hyperpod-mcp-server": {
+    "awslabs.sagemaker-hyperpod-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.hyperpod-mcp-server@latest",
+        "awslabs.sagemaker-hyperpod-mcp-server@latest",
         "--allow-write",
         "--allow-sensitive-data-access"
       ],
@@ -178,12 +178,12 @@ The `args` field in the MCP server definition specifies the command-line argumen
 ```
 {
   "mcpServers": {
-    "awslabs.hyperpod-mcp-server": {
+    "awslabs.sagemaker-hyperpod-mcp-server": {
       "command": "uvx",
       "args": [
         "--from",
-        "awslabs.hyperpod-mcp-server@latest",
-        "awslabs.hyperpod-mcp-server.exe",
+        "awslabs.sagemaker-hyperpod-mcp-server@latest",
+        "awslabs.sagemaker-hyperpod-mcp-server.exe",
         "--allow-write",
         "--allow-sensitive-data-access"
       ],
@@ -201,10 +201,10 @@ The `args` field in the MCP server definition specifies the command-line argumen
 The command format differs between operating systems:
 
 **For Mac/Linux:**
-* `awslabs.hyperpod-mcp-server@latest` - Specifies the latest package/version specifier for the MCP client config.
+* `awslabs.sagemaker-hyperpod-mcp-server@latest` - Specifies the latest package/version specifier for the MCP client config.
 
 **For Windows:**
-* `--from awslabs.hyperpod-mcp-server@latest awslabs.hyperpod-mcp-server.exe` - Windows requires the `--from` flag to specify the package and the `.exe` extension.
+* `--from awslabs.sagemaker-hyperpod-mcp-server@latest awslabs.sagemaker-hyperpod-mcp-server.exe` - Windows requires the `--from` flag to specify the package and the `.exe` extension.
 
 Both formats enable MCP server startup and tool registration.
 
@@ -229,7 +229,7 @@ The `env` field in the MCP server definition allows you to configure environment
 ```
 {
   "mcpServers": {
-    "awslabs.hyperpod-mcp-server": {
+    "awslabs.sagemaker-hyperpod-mcp-server": {
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
         "AWS_PROFILE": "my-profile",
@@ -367,10 +367,10 @@ An array within the MCP server definition that lists tool names to be automatica
 ```
 {
   "mcpServers": {
-    "awslabs.hyperpod-mcp-server": {
+    "awslabs.sagemaker-hyperpod-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.hyperpod-mcp-server@latest"
+        "awslabs.sagemaker-hyperpod-mcp-server@latest"
       ],
       "env": {
         "AWS_PROFILE": "hyperpod-mcp-readonly-profile",
@@ -391,12 +391,12 @@ An array within the MCP server definition that lists tool names to be automatica
 ```
 {
   "mcpServers": {
-    "awslabs.hyperpod-mcp-server": {
+    "awslabs.sagemaker-hyperpod-mcp-server": {
       "command": "uvx",
       "args": [
         "--from",
-        "awslabs.hyperpod-mcp-server@latest",
-        "awslabs.hyperpod-mcp-server.exe"
+        "awslabs.sagemaker-hyperpod-mcp-server@latest",
+        "awslabs.sagemaker-hyperpod-mcp-server.exe"
       ],
       "env": {
         "AWS_PROFILE": "hyperpod-mcp-readonly-profile",

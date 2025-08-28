@@ -14,7 +14,7 @@
 # ruff: noqa: D101, D102, D103
 """Tests for the models module."""
 
-from awslabs.hyperpod_mcp_server.models import (
+from awslabs.sagemaker_hyperpod_mcp_server.models import (
     AlarmDetails,
     BatchDeleteClusterNodesError,
     BatchDeleteClusterNodesResponse,
@@ -31,7 +31,6 @@ from awslabs.hyperpod_mcp_server.models import (
     DeployStackResponse,
     DescribeClusterNodeResponse,
     DescribeStackResponse,
-    GenerateTemplateResponse,
     ListClusterNodesResponse,
     ListClustersResponse,
     RollingDeploymentPolicy,
@@ -694,24 +693,6 @@ class TestBatchDeleteClusterNodesResponse:
         assert response.cluster_name == 'test-cluster'
         assert response.successful == ['i-0987654321fedcba0']
         assert response.failed is None
-
-
-class TestGenerateTemplateResponse:
-    """Tests for the GenerateTemplateResponse model."""
-
-    def test_create_generate_template_response(self):
-        """Test creating a GenerateTemplateResponse instance."""
-        response = GenerateTemplateResponse(
-            isError=False,
-            content=[TextContent(type='text', text='Successfully generated template')],
-            template_path='/path/to/template.yaml',
-        )
-
-        assert response.isError is False
-        assert len(response.content) == 1
-        assert response.content[0].type == 'text'
-        assert response.content[0].text == 'Successfully generated template'
-        assert response.template_path == '/path/to/template.yaml'
 
 
 class TestDeployStackResponse:

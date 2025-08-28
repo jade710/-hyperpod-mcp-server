@@ -15,8 +15,8 @@
 """Tests for the AWS Helper."""
 
 import os
-from awslabs.hyperpod_mcp_server import __version__
-from awslabs.hyperpod_mcp_server.aws_helper import AwsHelper
+from awslabs.sagemaker_hyperpod_mcp_server import __version__
+from awslabs.sagemaker_hyperpod_mcp_server.aws_helper import AwsHelper
 from unittest.mock import ANY, MagicMock, patch
 
 
@@ -154,7 +154,9 @@ class TestAwsHelper:
 
                     # Verify the user agent suffix uses the version from __init__.py
                     assert config is not None
-                    expected_user_agent = f'awslabs/mcp/hyperpod-mcp-server/{__version__}'
+                    expected_user_agent = (
+                        f'awslabs/mcp/sagemaker-hyperpod-mcp-server/{__version__}'
+                    )
                     assert config.user_agent_extra == expected_user_agent
 
     @patch('boto3.client')

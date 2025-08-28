@@ -15,7 +15,11 @@
 """Knowledge Base handler for the HyperPod MCP Server."""
 
 import requests
-from awslabs.hyperpod_mcp_server.consts import KB_API_ENDPOINT, KB_AWS_REGION, KB_AWS_SERVICE
+from awslabs.sagemaker_hyperpod_mcp_server.consts import (
+    KB_API_ENDPOINT,
+    KB_AWS_REGION,
+    KB_AWS_SERVICE,
+)
 from loguru import logger
 from pydantic import Field
 from requests_auth_aws_sigv4 import AWSSigV4
