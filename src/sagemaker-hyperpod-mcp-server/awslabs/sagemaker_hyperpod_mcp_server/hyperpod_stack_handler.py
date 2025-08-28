@@ -219,9 +219,9 @@ class HyperPodStackHandler:
                         • us-east-2 (Ohio)
                         • us-west-1 (N. California)
                         • us-west-2 (Oregon)
-                - stack_name: REQUIRED - generate a stack name and present to the user. should be in this format: "<HyperPodClusterName>-stack.
+                - stack_name: REQUIRED - generate a stack name and present to the user. should be in this format: "<HyperPodClusterName>-stack".
                 - params_file: REQUIRED - the parameters file should follow the below format. Ask the user to customize the parameters marked as "<to be filled out by user>" one by one. At the end, ask user if they want to add additional instance group.
-                    - when asking questions regarding InstanceGroupSettings, ask user for both the number of instance and type of instance at the same time.
+                    - when asking questions regarding InstanceGroupSettings, ask user for both the number of instance and type of instance at the same time. Naming format: "<HyperPodClusterName>-params.json"
                 [
                     {
                         "ParameterKey": "HyperPodClusterName",
@@ -298,7 +298,7 @@ class HyperPodStackHandler:
         - If user wants to create a new hyperpod cluster, always generate a new parameter file. Parameter file MUST exists in the working directory for the tool to update the hyperpod cluster.
         - For safety, this tool will only modify or delete stacks that it created
         - Stack creation typically takes ~30 minutes to complete
-        - Use absolute paths for parameter files (e.g., '/home/user/templates/hyperpod-template.yaml')
+        - Use absolute paths for parameter files
         - Specify region_name to operate on a stack in a specific region
         - Specify profile_name to use a specific AWS profile with appropriate permissions
 
@@ -308,17 +308,17 @@ class HyperPodStackHandler:
             - Deploy (update existing stack): `aws cloudformation udpate-stack --stack-name <name> --region <cluster_region> --template-url <url> --parameters <updated_params_file> --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM`
             - Describe: `aws cloudformation describe-stacks --stack-name <name> --region <cluster_region>`
             - Delete: `aws cloudformation delete-stack --stack-name <name> --region <cluster_region>`
-        - Or, as another alternative: advise using AWS SageMaker CLI alternatives:
+        - Alternatively: advise using AWS SageMaker CLI alternatives:
             - Deploy (create new stack): `aws sagemaker create-cluster --region <cluster_region>` with all appropriate parameters
             - Deploy (update existing stack): `aws sagemaker update-cluster --region <cluster_region>` with all appropriate parameters
             - Describe: `aws sagemaker describe-cluster --cluster-name <name> --region <cluster_region>`
             - Delete: `aws sagemaker delete-cluster --cluster-name <name> --region <cluster_region>`
-        - Or, as another alternative: Advise using SageMaker HyperPod console for directly creating, updating, deleting the HyperPod cluster
+        - Alternatively: Advise using SageMaker HyperPod console for directly creating, updating, deleting the HyperPod cluster
 
         Args:
             ctx: MCP context
             operation: Operation to perform (generate, deploy, describe, or delete)
-            params_file: Absolute path for the CloudFormation template parameters (for  deploy operations)
+            params_file: Absolute path for the CloudFormation template parameters (for deploy operations)
             stack_name: Name of the CloudFormation stack (for deploy, describe and delete operations)
             region_name: AWS region name (default: us-east-1)
             profile_name: AWS profile name (optional)
