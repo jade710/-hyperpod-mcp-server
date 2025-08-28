@@ -16,13 +16,15 @@
 
 import pytest
 import sys
-from awslabs.hyperpod_mcp_server.consts import KB_AWS_REGION, KB_AWS_SERVICE
+from awslabs.sagemaker_hyperpod_mcp_server.consts import KB_AWS_REGION, KB_AWS_SERVICE
 from unittest.mock import MagicMock, patch
 
 
 # Mock the requests_auth_aws_sigv4 module
 sys.modules['requests_auth_aws_sigv4'] = MagicMock()
-from awslabs.hyperpod_mcp_server.hyperpod_kb_handler import HyperPodKnowledgeBaseHandler
+from awslabs.sagemaker_hyperpod_mcp_server.hyperpod_kb_handler import (
+    HyperPodKnowledgeBaseHandler,
+)
 
 
 @pytest.fixture
@@ -35,7 +37,7 @@ class TestHyperPodKnowledgeBaseHandler:
     """Tests for the HyperPodKnowledgeBaseHandler class."""
 
     @pytest.mark.asyncio
-    @patch('awslabs.hyperpod_mcp_server.hyperpod_kb_handler.AWSSigV4')
+    @patch('awslabs.sagemaker_hyperpod_mcp_server.hyperpod_kb_handler.AWSSigV4')
     async def test_search_hyperpod_knowledge_base_success(self, mock_aws_auth, mock_mcp):
         """Test successful search of HyperPod knowledge base."""
         # Create a mock for AWSSigV4 to prevent AWS credential access
@@ -44,7 +46,9 @@ class TestHyperPodKnowledgeBaseHandler:
 
         handler = HyperPodKnowledgeBaseHandler(mock_mcp)
         expected_response = 'troubleshooting steps'
-        with patch('awslabs.hyperpod_mcp_server.hyperpod_kb_handler.requests.post') as mock_post:
+        with patch(
+            'awslabs.sagemaker_hyperpod_mcp_server.hyperpod_kb_handler.requests.post'
+        ) as mock_post:
             mock_resp = MagicMock()
             mock_resp.text = expected_response
             mock_resp.raise_for_status = MagicMock()
@@ -58,7 +62,7 @@ class TestHyperPodKnowledgeBaseHandler:
             mock_aws_auth.assert_called_once_with(KB_AWS_SERVICE, region=KB_AWS_REGION)
 
     @pytest.mark.asyncio
-    @patch('awslabs.hyperpod_mcp_server.hyperpod_kb_handler.AWSSigV4')
+    @patch('awslabs.sagemaker_hyperpod_mcp_server.hyperpod_kb_handler.AWSSigV4')
     async def test_search_hyperpod_knowledge_base_error(self, mock_aws_auth, mock_mcp):
         """Test error handling in search of HyperPod knowledge base."""
         # Create a mock for AWSSigV4 to prevent AWS credential access
@@ -66,7 +70,9 @@ class TestHyperPodKnowledgeBaseHandler:
         mock_aws_auth.return_value = mock_auth_instance
 
         handler = HyperPodKnowledgeBaseHandler(mock_mcp)
-        with patch('awslabs.hyperpod_mcp_server.hyperpod_kb_handler.requests.post') as mock_post:
+        with patch(
+            'awslabs.sagemaker_hyperpod_mcp_server.hyperpod_kb_handler.requests.post'
+        ) as mock_post:
             mock_post.side_effect = Exception('network error')
             result = await handler.search_hyperpod_knowledge_base('test query')
             assert 'Error: network error' in result

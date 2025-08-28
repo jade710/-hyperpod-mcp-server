@@ -2,7 +2,7 @@
 title: Amazon SageMaker HyperPod MCP Server
 ---
 
-import ReadmeContent from "../../../src/hyperpod-mcp-server/README.md";
+import ReadmeContent from "../../../src/sagemaker-hyperpod-mcp-server/README.md";
 
 <div className="readme-content">
   <style>

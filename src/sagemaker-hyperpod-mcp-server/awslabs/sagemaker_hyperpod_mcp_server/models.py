@@ -203,12 +203,6 @@ class BatchDeleteClusterNodesResponse(CallToolResult):
 # CloudFormation stack operation response models
 
 
-class GenerateTemplateResponse(CallToolResult):
-    """Response model for generate operation of manage_hyperpod_stacks tool."""
-
-    # template_path: str = Field(..., description='Path to the generated template')
-
-
 class DeployStackResponse(CallToolResult):
     """Response model for deploy operation of manage_hyperpod_stacks tool."""
 

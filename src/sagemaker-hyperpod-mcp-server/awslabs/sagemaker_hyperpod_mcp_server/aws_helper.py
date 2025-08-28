@@ -16,7 +16,7 @@
 
 import boto3
 import os
-from awslabs.hyperpod_mcp_server.consts import SUPPORTED_REGIONS
+from awslabs.sagemaker_hyperpod_mcp_server.consts import SUPPORTED_REGIONS
 from botocore.config import Config
 from loguru import logger
 from pydantic import validate_call
@@ -61,7 +61,7 @@ class AwsHelper:
     ) -> Any:
         """Create or retrieve a cached boto3 client with the appropriate profile and region.
 
-        The client is configured with a custom user agent suffix 'awslabs/mcp/hyperpod-mcp-server/{version}'
+        The client is configured with a custom user agent suffix 'awslabs/mcp/sagemaker-hyperpod-mcp-server/{version}'
         to identify API calls made by the HyperPod MCP Server. Clients are cached to improve performance
         and reduce resource usage.
 
@@ -93,7 +93,9 @@ class AwsHelper:
                 return cls._client_cache[cache_key]
 
             # Create config with user agent suffix
-            config = Config(user_agent_extra=f'awslabs/mcp/hyperpod-mcp-server/{__version__}')
+            config = Config(
+                user_agent_extra=f'awslabs/mcp/sagemaker-hyperpod-mcp-server/{__version__}'
+            )
 
             # Create session with profile if specified
             if profile:
