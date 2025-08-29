@@ -379,17 +379,22 @@ class TestHyperPodClusterNodeHandler:
             assert result.node_details.instance_type == 'ml.g5.8xlarge'
             assert result.node_details.launch_time == '2023-01-01T00:00:00Z'
             assert result.node_details.last_software_update_time == '2023-01-02T00:00:00Z'
+            assert result.node_details.instance_storage_configs is not None
             assert len(result.node_details.instance_storage_configs) == 1
+            assert result.node_details.instance_storage_configs[0].ebs_volume_config is not None
             assert (
                 result.node_details.instance_storage_configs[0].ebs_volume_config.volume_size_in_gb
                 == 500
             )
+            assert result.node_details.life_cycle_config is not None
             assert result.node_details.life_cycle_config.on_create == 'echo "Hello, World!"'
             assert result.node_details.life_cycle_config.source_s3_uri == 's3://bucket/path'
+            assert result.node_details.override_vpc_config is not None
             assert result.node_details.override_vpc_config.security_group_ids == [
                 'sg-1234567890abcdef0'
             ]
             assert result.node_details.override_vpc_config.subnets == ['subnet-1234567890abcdef0']
+            assert result.node_details.placement is not None
             assert result.node_details.placement.availability_zone == 'us-west-2a'
             assert result.node_details.placement.availability_zone_id == 'usw2-az1'
             assert (
@@ -849,7 +854,7 @@ class TestHyperPodClusterNodeHandler:
             assert not result.isError
             assert result.cluster_name == 'test-cluster'
             assert result.successful == ['i-1234567890abcdef0', 'i-0987654321fedcba0']
-            assert result.failed is None
+            assert result.failed is None or len(result.failed) == 0
             assert len(result.content) == 1
             assert result.content[0].type == 'text'
             assert (

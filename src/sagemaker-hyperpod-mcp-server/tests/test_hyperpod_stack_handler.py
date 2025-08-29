@@ -674,7 +674,7 @@ class TestHyperPodStackHandler:
         with pytest.raises(ValueError, match='validation errors'):
             await handler.manage_hyperpod_stacks(
                 ctx=mock_ctx,
-                operation='invalid',
+                operation='invalid',  # type: ignore
             )
 
     @pytest.mark.asyncio
