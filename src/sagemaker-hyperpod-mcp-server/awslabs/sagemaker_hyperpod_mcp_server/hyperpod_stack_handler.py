@@ -38,9 +38,9 @@ from awslabs.sagemaker_hyperpod_mcp_server.models import (
     DescribeStackResponse,
 )
 from mcp.server.fastmcp import Context
-from mcp.types import AudioContent, EmbeddedResource, ImageContent, ResourceLink, TextContent
+from mcp.types import TextContent
 from pydantic import Field, validate_call
-from typing import Dict, List, Optional, Tuple, Union, cast
+from typing import Dict, List, Optional, Tuple, Union
 from yaml.loader import SafeLoader  # type: ignore
 
 
@@ -339,54 +339,21 @@ class HyperPodStackHandler:
                 if operation == STACK_DEPLOY_OPERATION:
                     return DeployStackResponse(
                         isError=True,
-                        content=cast(
-                            List[
-                                Union[
-                                    TextContent,
-                                    ImageContent,
-                                    AudioContent,
-                                    ResourceLink,
-                                    EmbeddedResource,
-                                ]
-                            ],
-                            [TextContent(type='text', text=error_message)],
-                        ),
+                        content=[TextContent(type='text', text=error_message)],
                         stack_name='',
                         stack_arn='',
                     )
                 elif operation == STACK_DELETE_OPERATION:
                     return DeleteStackResponse(
                         isError=True,
-                        content=cast(
-                            List[
-                                Union[
-                                    TextContent,
-                                    ImageContent,
-                                    AudioContent,
-                                    ResourceLink,
-                                    EmbeddedResource,
-                                ]
-                            ],
-                            [TextContent(type='text', text=error_message)],
-                        ),
+                        content=[TextContent(type='text', text=error_message)],
                         stack_name='',
                         stack_id='',
                     )
                 else:  # Default to describe operation
                     return DescribeStackResponse(
                         isError=True,
-                        content=cast(
-                            List[
-                                Union[
-                                    TextContent,
-                                    ImageContent,
-                                    AudioContent,
-                                    ResourceLink,
-                                    EmbeddedResource,
-                                ]
-                            ],
-                            [TextContent(type='text', text=error_message)],
-                        ),
+                        content=[TextContent(type='text', text=error_message)],
                         stack_name='',
                         stack_id='',
                         creation_time='',
@@ -431,18 +398,7 @@ class HyperPodStackHandler:
                 # Default to DescribeStackResponse for invalid operations
                 return DescribeStackResponse(
                     isError=True,
-                    content=cast(
-                        List[
-                            Union[
-                                TextContent,
-                                ImageContent,
-                                AudioContent,
-                                ResourceLink,
-                                EmbeddedResource,
-                            ]
-                        ],
-                        [TextContent(type='text', text=error_message)],
-                    ),
+                    content=[TextContent(type='text', text=error_message)],
                     stack_name='',
                     stack_id='',
                     creation_time='',
@@ -459,14 +415,7 @@ class HyperPodStackHandler:
             # Default to DescribeStackResponse for general exceptions
             return DescribeStackResponse(
                 isError=True,
-                content=cast(
-                    List[
-                        Union[
-                            TextContent, ImageContent, AudioContent, ResourceLink, EmbeddedResource
-                        ]
-                    ],
-                    [TextContent(type='text', text=error_message)],
-                ),
+                content=[TextContent(type='text', text=error_message)],
                 stack_name='',
                 stack_id='',
                 creation_time='',
@@ -498,18 +447,9 @@ class HyperPodStackHandler:
                     if not success:
                         return DeployStackResponse(
                             isError=True,
-                            content=cast(
-                                List[
-                                    Union[
-                                        TextContent,
-                                        ImageContent,
-                                        AudioContent,
-                                        ResourceLink,
-                                        EmbeddedResource,
-                                    ]
-                                ],
-                                [TextContent(type='text', text=error_message or 'Unknown error')],
-                            ),
+                            content=[
+                                TextContent(type='text', text=error_message or 'Unknown error')
+                            ],
                             stack_name=stack_name,
                             stack_arn='',
                         )
@@ -559,19 +499,12 @@ class HyperPodStackHandler:
 
             return DeployStackResponse(
                 isError=False,
-                content=cast(
-                    List[
-                        Union[
-                            TextContent, ImageContent, AudioContent, ResourceLink, EmbeddedResource
-                        ]
-                    ],
-                    [
-                        TextContent(
-                            type='text',
-                            text=f'CloudFormation stack {operation_text} initiated. Stack {operation_text} is in progress and typically takes ~30 minutes to complete.',
-                        )
-                    ],
-                ),
+                content=[
+                    TextContent(
+                        type='text',
+                        text=f'CloudFormation stack {operation_text} initiated. Stack {operation_text} is in progress and typically takes ~30 minutes to complete.',
+                    )
+                ],
                 stack_name=stack_name,
                 stack_arn=response['StackId'],
             )
@@ -581,14 +514,7 @@ class HyperPodStackHandler:
 
             return DeployStackResponse(
                 isError=True,
-                content=cast(
-                    List[
-                        Union[
-                            TextContent, ImageContent, AudioContent, ResourceLink, EmbeddedResource
-                        ]
-                    ],
-                    [TextContent(type='text', text=error_message or 'Unknown error')],
-                ),
+                content=[TextContent(type='text', text=error_message or 'Unknown error')],
                 stack_name=stack_name,
                 stack_arn='',
             )
@@ -619,18 +545,7 @@ class HyperPodStackHandler:
 
                 return DescribeStackResponse(
                     isError=True,
-                    content=cast(
-                        List[
-                            Union[
-                                TextContent,
-                                ImageContent,
-                                AudioContent,
-                                ResourceLink,
-                                EmbeddedResource,
-                            ]
-                        ],
-                        [TextContent(type='text', text=error_message or 'Unknown error')],
-                    ),
+                    content=[TextContent(type='text', text=error_message or 'Unknown error')],
                     stack_name=stack_name,
                     stack_id=stack_id,
                     creation_time=creation_time,
@@ -671,19 +586,12 @@ class HyperPodStackHandler:
 
             return DescribeStackResponse(
                 isError=False,
-                content=cast(
-                    List[
-                        Union[
-                            TextContent, ImageContent, AudioContent, ResourceLink, EmbeddedResource
-                        ]
-                    ],
-                    [
-                        TextContent(
-                            type='text',
-                            text=f'Successfully described CloudFormation stack {stack_name} for HyperPod stack',
-                        )
-                    ],
-                ),
+                content=[
+                    TextContent(
+                        type='text',
+                        text=f'Successfully described CloudFormation stack {stack_name} for HyperPod stack',
+                    )
+                ],
                 stack_name=stack_name,
                 stack_id=stack_id,
                 creation_time=creation_time,
@@ -696,14 +604,7 @@ class HyperPodStackHandler:
 
             return DescribeStackResponse(
                 isError=True,
-                content=cast(
-                    List[
-                        Union[
-                            TextContent, ImageContent, AudioContent, ResourceLink, EmbeddedResource
-                        ]
-                    ],
-                    [TextContent(type='text', text=error_message or 'Unknown error')],
-                ),
+                content=[TextContent(type='text', text=error_message or 'Unknown error')],
                 stack_name=stack_name,
                 stack_id='',
                 creation_time='',
@@ -740,18 +641,7 @@ class HyperPodStackHandler:
 
                 return DeleteStackResponse(
                     isError=True,
-                    content=cast(
-                        List[
-                            Union[
-                                TextContent,
-                                ImageContent,
-                                AudioContent,
-                                ResourceLink,
-                                EmbeddedResource,
-                            ]
-                        ],
-                        [TextContent(type='text', text=error_message or 'Unknown error')],
-                    ),
+                    content=[TextContent(type='text', text=error_message or 'Unknown error')],
                     stack_name=stack_name,
                     stack_id=stack_id,
                 )
@@ -772,19 +662,12 @@ class HyperPodStackHandler:
 
             return DeleteStackResponse(
                 isError=False,
-                content=cast(
-                    List[
-                        Union[
-                            TextContent, ImageContent, AudioContent, ResourceLink, EmbeddedResource
-                        ]
-                    ],
-                    [
-                        TextContent(
-                            type='text',
-                            text=f'Initiated deletion of CloudFormation stack {stack_name} for HyperPod stack. Deletion is in progress.',
-                        )
-                    ],
-                ),
+                content=[
+                    TextContent(
+                        type='text',
+                        text=f'Initiated deletion of CloudFormation stack {stack_name} for HyperPod stack. Deletion is in progress.',
+                    )
+                ],
                 stack_name=stack_name,
                 stack_id=stack_id,
             )
@@ -794,14 +677,7 @@ class HyperPodStackHandler:
 
             return DeleteStackResponse(
                 isError=True,
-                content=cast(
-                    List[
-                        Union[
-                            TextContent, ImageContent, AudioContent, ResourceLink, EmbeddedResource
-                        ]
-                    ],
-                    [TextContent(type='text', text=error_message or 'Unknown error')],
-                ),
+                content=[TextContent(type='text', text=error_message or 'Unknown error')],
                 stack_name=stack_name,
                 stack_id='',
             )

@@ -197,6 +197,7 @@ class TestListClustersResponse:
             isError=False,
             content=[TextContent(type='text', text='Successfully listed clusters')],
             clusters=[cluster_summary],
+            next_token=None,
         )
 
         assert response.isError is False
@@ -258,6 +259,7 @@ class TestListClusterNodesResponse:
             isError=False,
             content=[TextContent(type='text', text='Successfully listed cluster nodes')],
             nodes=[node_summary],
+            next_token=None,
         )
 
         assert response.isError is False
@@ -605,6 +607,7 @@ class TestDescribeClusterNodeResponse:
         response = DescribeClusterNodeResponse(
             isError=False,
             content=[TextContent(type='text', text='Successfully described cluster node')],
+            node_details=None,
         )
 
         assert response.isError is False
@@ -684,6 +687,7 @@ class TestBatchDeleteClusterNodesResponse:
             content=[TextContent(type='text', text='Successfully deleted cluster nodes')],
             cluster_name='test-cluster',
             successful=['i-0987654321fedcba0'],
+            failed=None,
         )
 
         assert response.isError is False
@@ -705,7 +709,6 @@ class TestDeployStackResponse:
             content=[TextContent(type='text', text='Successfully deployed stack')],
             stack_name='test-stack',
             stack_arn='arn:aws:cloudformation:us-west-2:123456789012:stack/test-stack/1234567890abcdef',
-            cluster_name='test-cluster',
         )
 
         assert response.isError is False
@@ -717,7 +720,6 @@ class TestDeployStackResponse:
             response.stack_arn
             == 'arn:aws:cloudformation:us-west-2:123456789012:stack/test-stack/1234567890abcdef'
         )
-        assert response.cluster_name == 'test-cluster'
 
 
 class TestDescribeStackResponse:
@@ -730,7 +732,6 @@ class TestDescribeStackResponse:
             content=[TextContent(type='text', text='Successfully described stack')],
             stack_name='test-stack',
             stack_id='arn:aws:cloudformation:us-west-2:123456789012:stack/test-stack/1234567890abcdef',
-            cluster_name='test-cluster',
             creation_time='2023-01-01T00:00:00Z',
             stack_status='CREATE_COMPLETE',
             outputs={

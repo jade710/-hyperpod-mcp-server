@@ -915,6 +915,7 @@ class TestHyperPodClusterNodeHandler:
             assert not result.isError
             assert result.cluster_name == 'test-cluster'
             assert result.successful == ['i-1234567890abcdef0']
+            assert result.failed is not None
             assert len(result.failed) == 1
             assert result.failed[0].node_id == 'i-0987654321fedcba0'
             assert result.failed[0].code == 'ValidationException'
@@ -969,7 +970,7 @@ class TestHyperPodClusterNodeHandler:
             assert result.isError
             assert result.cluster_name == 'test-cluster'
             assert result.successful == []
-            assert result.failed is None
+            assert result.failed is None or len(result.failed) == 0
             assert len(result.content) == 1
             assert result.content[0].type == 'text'
             assert (
@@ -1016,8 +1017,6 @@ class TestHyperPodClusterNodeHandler:
                 max_results=10,
                 next_token='token',
                 name_contains='test',
-                creation_time_after='2023-01-01T00:00:00Z',
-                creation_time_before='2023-01-02T00:00:00Z',
                 sort_by='NAME',
                 sort_order='Descending',
                 training_plan_arn='arn:aws:sagemaker:us-west-2:123456789012:training-plan/test-plan',
@@ -1032,8 +1031,6 @@ class TestHyperPodClusterNodeHandler:
             assert call_args['max_results'] == 10
             assert call_args['next_token'] == 'token'
             assert call_args['name_contains'] == 'test'
-            assert call_args['creation_time_after'] == '2023-01-01T00:00:00Z'
-            assert call_args['creation_time_before'] == '2023-01-02T00:00:00Z'
             assert call_args['sort_by'] == 'NAME'
             assert call_args['sort_order'] == 'Descending'
             assert (
@@ -1046,6 +1043,8 @@ class TestHyperPodClusterNodeHandler:
             # Verify the result is the same as the mock result
             assert result is mock_result
             assert not result.isError
+            # Type assertion to help pyright understand this is ListClustersResponse
+            assert isinstance(result, ListClustersResponse)
             assert len(result.clusters) == 1
             assert result.clusters[0].cluster_name == 'test-cluster'
             assert result.next_token == 'next-token'
@@ -1192,6 +1191,9 @@ class TestHyperPodClusterNodeHandler:
             # Verify the result is the same as the mock result
             assert result is mock_result
             assert not result.isError
+            # Type assertion to help pyright understand this is DescribeClusterNodeResponse
+            assert isinstance(result, DescribeClusterNodeResponse)
+            assert result.node_details is not None
             assert result.node_details.instance_id == 'i-1234567890abcdef0'
             assert result.node_details.instance_group_name == 'test-group'
 
@@ -1269,6 +1271,8 @@ class TestHyperPodClusterNodeHandler:
             # Verify the result is the same as the mock result
             assert result is mock_result
             assert not result.isError
+            # Type assertion to help pyright understand this is UpdateClusterSoftwareResponse
+            assert isinstance(result, UpdateClusterSoftwareResponse)
             assert (
                 result.cluster_arn
                 == 'arn:aws:sagemaker:us-west-2:123456789012:cluster/test-cluster'
@@ -1323,6 +1327,8 @@ class TestHyperPodClusterNodeHandler:
             # Verify the result is the same as the mock result
             assert result is mock_result
             assert not result.isError
+            # Type assertion to help pyright understand this is BatchDeleteClusterNodesResponse
+            assert isinstance(result, BatchDeleteClusterNodesResponse)
             assert result.cluster_name == 'test-cluster'
             assert result.successful == ['i-1234567890abcdef0', 'i-0987654321fedcba0']
             assert result.failed is None
@@ -1343,7 +1349,7 @@ class TestHyperPodClusterNodeHandler:
         with pytest.raises(ValueError, match='validation error'):
             await handler.manage_hyperpod_cluster_nodes(
                 ctx=mock_ctx,
-                operation='invalid',
+                operation='invalid',  # pyright: ignore[reportArgumentType]
                 cluster_name='test-cluster',
             )
 

@@ -671,10 +671,10 @@ class TestHyperPodStackHandler:
         mock_ctx = MagicMock(spec=Context)
 
         # Call the manage_hyperpod_stacks method with an invalid operation
-        with pytest.raises(ValueError, match='validation errors'):
+        with pytest.raises(ValueError, match='validation error'):
             await handler.manage_hyperpod_stacks(
                 ctx=mock_ctx,
-                operation='invalid',  # type: ignore
+                operation='invalid',  # pyright: ignore[reportArgumentType]
             )
 
     @pytest.mark.asyncio
@@ -846,7 +846,7 @@ class TestHyperPodStackHandler:
             )
             assert success is False
             assert stack is None
-            assert 'Error verifying stack ownership' in error_message
+            assert error_message is not None and 'Error verifying stack ownership' in error_message
 
     @pytest.mark.asyncio
     async def test_manage_hyperpod_stacks_general_exception(self):

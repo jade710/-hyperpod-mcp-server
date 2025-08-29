@@ -14,9 +14,16 @@
 
 """Data models for the HyperPod MCP Server."""
 
-from mcp.types import CallToolResult
+from mcp.types import TextContent
 from pydantic import BaseModel, Field
 from typing import Dict, List, Optional
+
+
+class CallToolResult(BaseModel):
+    """Base class for tool call results with TextContent only."""
+
+    content: List[TextContent] = Field(..., description='Response content')
+    isError: bool = Field(False, description='Whether this is an error response')
 
 
 class ClusterSummary(BaseModel):
