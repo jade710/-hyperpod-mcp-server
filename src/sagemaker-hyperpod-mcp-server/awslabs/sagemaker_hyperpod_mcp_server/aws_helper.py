@@ -20,7 +20,7 @@ from awslabs.sagemaker_hyperpod_mcp_server.consts import SUPPORTED_REGIONS
 from botocore.config import Config
 from loguru import logger
 from pydantic import validate_call
-from typing import Any, Dict, Optional, cast
+from typing import Any, Dict, Optional, cast, get_args
 
 
 # TODO: Import version from package
@@ -47,7 +47,7 @@ class AwsHelper:
     def get_aws_region() -> Optional[SUPPORTED_REGIONS]:
         """Get the AWS region from the environment if set."""
         region = os.environ.get('AWS_REGION')
-        return cast(SUPPORTED_REGIONS, region) if region in SUPPORTED_REGIONS.__args__ else None
+        return cast(SUPPORTED_REGIONS, region) if region in get_args(SUPPORTED_REGIONS) else None
 
     @staticmethod
     def get_aws_profile() -> Optional[str]:

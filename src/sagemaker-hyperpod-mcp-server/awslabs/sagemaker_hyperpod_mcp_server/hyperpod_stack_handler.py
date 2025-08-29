@@ -15,7 +15,7 @@
 """HyperPod stack handler for the HyperPod MCP Server."""
 
 import json
-import yaml
+import yaml  # type: ignore
 from awslabs.sagemaker_hyperpod_mcp_server.aws_helper import AwsHelper
 from awslabs.sagemaker_hyperpod_mcp_server.consts import (
     CFN_CAPABILITY_IAM,
@@ -38,10 +38,10 @@ from awslabs.sagemaker_hyperpod_mcp_server.models import (
     DescribeStackResponse,
 )
 from mcp.server.fastmcp import Context
-from mcp.types import EmbeddedResource, ImageContent, TextContent
+from mcp.types import AudioContent, EmbeddedResource, ImageContent, ResourceLink, TextContent
 from pydantic import Field, validate_call
 from typing import Dict, List, Optional, Tuple, Union, cast
-from yaml.loader import SafeLoader
+from yaml.loader import SafeLoader  # type: ignore
 
 
 # Custom YAML loader for CloudFormation templates
@@ -340,7 +340,15 @@ class HyperPodStackHandler:
                     return DeployStackResponse(
                         isError=True,
                         content=cast(
-                            List[Union[TextContent, ImageContent, EmbeddedResource]],
+                            List[
+                                Union[
+                                    TextContent,
+                                    ImageContent,
+                                    AudioContent,
+                                    ResourceLink,
+                                    EmbeddedResource,
+                                ]
+                            ],
                             [TextContent(type='text', text=error_message)],
                         ),
                         stack_name='',
@@ -350,7 +358,15 @@ class HyperPodStackHandler:
                     return DeleteStackResponse(
                         isError=True,
                         content=cast(
-                            List[Union[TextContent, ImageContent, EmbeddedResource]],
+                            List[
+                                Union[
+                                    TextContent,
+                                    ImageContent,
+                                    AudioContent,
+                                    ResourceLink,
+                                    EmbeddedResource,
+                                ]
+                            ],
                             [TextContent(type='text', text=error_message)],
                         ),
                         stack_name='',
@@ -360,7 +376,15 @@ class HyperPodStackHandler:
                     return DescribeStackResponse(
                         isError=True,
                         content=cast(
-                            List[Union[TextContent, ImageContent, EmbeddedResource]],
+                            List[
+                                Union[
+                                    TextContent,
+                                    ImageContent,
+                                    AudioContent,
+                                    ResourceLink,
+                                    EmbeddedResource,
+                                ]
+                            ],
                             [TextContent(type='text', text=error_message)],
                         ),
                         stack_name='',
@@ -408,7 +432,15 @@ class HyperPodStackHandler:
                 return DescribeStackResponse(
                     isError=True,
                     content=cast(
-                        List[Union[TextContent, ImageContent, EmbeddedResource]],
+                        List[
+                            Union[
+                                TextContent,
+                                ImageContent,
+                                AudioContent,
+                                ResourceLink,
+                                EmbeddedResource,
+                            ]
+                        ],
                         [TextContent(type='text', text=error_message)],
                     ),
                     stack_name='',
@@ -428,7 +460,11 @@ class HyperPodStackHandler:
             return DescribeStackResponse(
                 isError=True,
                 content=cast(
-                    List[Union[TextContent, ImageContent, EmbeddedResource]],
+                    List[
+                        Union[
+                            TextContent, ImageContent, AudioContent, ResourceLink, EmbeddedResource
+                        ]
+                    ],
                     [TextContent(type='text', text=error_message)],
                 ),
                 stack_name='',
@@ -441,8 +477,8 @@ class HyperPodStackHandler:
     async def _deploy_stack(
         self,
         ctx: Context,
-        template_params: [dict],
-        stack_name: str,  # type: ignore
+        template_params: List[dict],
+        stack_name: str,
         region_name: SUPPORTED_REGIONS,
         profile_name: Optional[str] = None,
     ) -> 'DeployStackResponse':
@@ -463,7 +499,15 @@ class HyperPodStackHandler:
                         return DeployStackResponse(
                             isError=True,
                             content=cast(
-                                List[Union[TextContent, ImageContent, EmbeddedResource]],
+                                List[
+                                    Union[
+                                        TextContent,
+                                        ImageContent,
+                                        AudioContent,
+                                        ResourceLink,
+                                        EmbeddedResource,
+                                    ]
+                                ],
                                 [TextContent(type='text', text=error_message or 'Unknown error')],
                             ),
                             stack_name=stack_name,
@@ -516,7 +560,11 @@ class HyperPodStackHandler:
             return DeployStackResponse(
                 isError=False,
                 content=cast(
-                    List[Union[TextContent, ImageContent, EmbeddedResource]],
+                    List[
+                        Union[
+                            TextContent, ImageContent, AudioContent, ResourceLink, EmbeddedResource
+                        ]
+                    ],
                     [
                         TextContent(
                             type='text',
@@ -534,7 +582,11 @@ class HyperPodStackHandler:
             return DeployStackResponse(
                 isError=True,
                 content=cast(
-                    List[Union[TextContent, ImageContent, EmbeddedResource]],
+                    List[
+                        Union[
+                            TextContent, ImageContent, AudioContent, ResourceLink, EmbeddedResource
+                        ]
+                    ],
                     [TextContent(type='text', text=error_message or 'Unknown error')],
                 ),
                 stack_name=stack_name,
@@ -568,7 +620,15 @@ class HyperPodStackHandler:
                 return DescribeStackResponse(
                     isError=True,
                     content=cast(
-                        List[Union[TextContent, ImageContent, EmbeddedResource]],
+                        List[
+                            Union[
+                                TextContent,
+                                ImageContent,
+                                AudioContent,
+                                ResourceLink,
+                                EmbeddedResource,
+                            ]
+                        ],
                         [TextContent(type='text', text=error_message or 'Unknown error')],
                     ),
                     stack_name=stack_name,
@@ -612,7 +672,11 @@ class HyperPodStackHandler:
             return DescribeStackResponse(
                 isError=False,
                 content=cast(
-                    List[Union[TextContent, ImageContent, EmbeddedResource]],
+                    List[
+                        Union[
+                            TextContent, ImageContent, AudioContent, ResourceLink, EmbeddedResource
+                        ]
+                    ],
                     [
                         TextContent(
                             type='text',
@@ -633,7 +697,11 @@ class HyperPodStackHandler:
             return DescribeStackResponse(
                 isError=True,
                 content=cast(
-                    List[Union[TextContent, ImageContent, EmbeddedResource]],
+                    List[
+                        Union[
+                            TextContent, ImageContent, AudioContent, ResourceLink, EmbeddedResource
+                        ]
+                    ],
                     [TextContent(type='text', text=error_message or 'Unknown error')],
                 ),
                 stack_name=stack_name,
@@ -673,7 +741,15 @@ class HyperPodStackHandler:
                 return DeleteStackResponse(
                     isError=True,
                     content=cast(
-                        List[Union[TextContent, ImageContent, EmbeddedResource]],
+                        List[
+                            Union[
+                                TextContent,
+                                ImageContent,
+                                AudioContent,
+                                ResourceLink,
+                                EmbeddedResource,
+                            ]
+                        ],
                         [TextContent(type='text', text=error_message or 'Unknown error')],
                     ),
                     stack_name=stack_name,
@@ -697,7 +773,11 @@ class HyperPodStackHandler:
             return DeleteStackResponse(
                 isError=False,
                 content=cast(
-                    List[Union[TextContent, ImageContent, EmbeddedResource]],
+                    List[
+                        Union[
+                            TextContent, ImageContent, AudioContent, ResourceLink, EmbeddedResource
+                        ]
+                    ],
                     [
                         TextContent(
                             type='text',
@@ -715,7 +795,11 @@ class HyperPodStackHandler:
             return DeleteStackResponse(
                 isError=True,
                 content=cast(
-                    List[Union[TextContent, ImageContent, EmbeddedResource]],
+                    List[
+                        Union[
+                            TextContent, ImageContent, AudioContent, ResourceLink, EmbeddedResource
+                        ]
+                    ],
                     [TextContent(type='text', text=error_message or 'Unknown error')],
                 ),
                 stack_name=stack_name,

@@ -14,7 +14,7 @@
 
 """Knowledge Base handler for the HyperPod MCP Server."""
 
-import requests
+import requests  # type: ignore
 from awslabs.sagemaker_hyperpod_mcp_server.consts import (
     KB_API_ENDPOINT,
     KB_AWS_REGION,
