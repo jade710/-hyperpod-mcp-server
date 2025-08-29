@@ -48,7 +48,7 @@ from awslabs.sagemaker_hyperpod_mcp_server.models import (
 from mcp.server.fastmcp import Context
 from mcp.types import TextContent
 from pydantic import Field, validate_call
-from typing import List, Optional, Union
+from typing import Any, List, Literal, Optional, Union
 
 
 class HyperPodClusterNodeHandler:
@@ -152,15 +152,12 @@ class HyperPodClusterNodeHandler:
             None,
             description='Filter for nodes in instance groups whose name contains the specified string. Used for "list_nodes" operation.',
         ),
-        sort_by: Optional[str] = Field(
-            'CREATION_TIME',
-            description='The field to sort results by. The default is CREATION_TIME. Used for "list_clusters" and "list_nodes" operations.',
-            enum=['CREATION_TIME', 'NAME'],
+        sort_by: Optional[Literal['CREATION_TIME', 'NAME']] = Field(
+            default='CREATION_TIME', description='The field to sort results by...'
         ),
-        sort_order: Optional[str] = Field(
-            'Ascending',
+        sort_order: Optional[Literal['Ascending', 'Descending']] = Field(
+            default='Ascending',
             description='The sort order for results. The default is Ascending. Used for "list_clusters" and "list_nodes" operations.',
-            enum=['Ascending', 'Descending'],
         ),
         training_plan_arn: Optional[str] = Field(
             None,
@@ -284,6 +281,10 @@ class HyperPodClusterNodeHandler:
             if operation == 'batch_delete' and (node_ids is None or len(node_ids) == 0):
                 raise ValueError('node_ids is required for batch_delete operation')
 
+            # Set default values for None parameters to satisfy type checker
+            if max_results is None:
+                max_results = 10
+
             # Check if write access is disabled and trying to perform a mutating operation
             if not self.allow_write and operation in [
                 UPDATE_SOFTWARE_OPERATION,
@@ -300,10 +301,12 @@ class HyperPodClusterNodeHandler:
                         cluster_arn='',
                     )
                 elif operation == BATCH_DELETE_OPERATION:
+                    # Ensure cluster_name is not None for the response
+                    safe_cluster_name = cluster_name if cluster_name is not None else ''
                     return BatchDeleteClusterNodesResponse(
                         isError=True,
                         content=[TextContent(type='text', text=error_message)],
-                        cluster_name=cluster_name,
+                        cluster_name=safe_cluster_name,
                         successful=[],
                         failed=None,
                     )
@@ -324,6 +327,9 @@ class HyperPodClusterNodeHandler:
                     profile_name=profile_name,
                 )
             elif operation == LIST_NODES_OPERATION:
+                # Ensure cluster_name is not None
+                if cluster_name is None:
+                    raise ValueError('cluster_name is required for list_nodes operation')
                 return await self._list_hp_cluster_nodes(
                     ctx=ctx,
                     cluster_name=cluster_name,
@@ -338,6 +344,11 @@ class HyperPodClusterNodeHandler:
                     profile_name=profile_name,
                 )
             elif operation == DESCRIBE_NODE_OPERATION:
+                # Ensure cluster_name and node_id are not None
+                if cluster_name is None:
+                    raise ValueError('cluster_name is required for describe_node operation')
+                if node_id is None:
+                    raise ValueError('node_id is required for describe_node operation')
                 return await self._describe_hp_cluster_node(
                     ctx=ctx,
                     cluster_name=cluster_name,
@@ -346,6 +357,9 @@ class HyperPodClusterNodeHandler:
                     profile_name=profile_name,
                 )
             elif operation == UPDATE_SOFTWARE_OPERATION:
+                # Ensure cluster_name is not None
+                if cluster_name is None:
+                    raise ValueError('cluster_name is required for update_software operation')
                 return await self._update_hp_cluster_software(
                     ctx=ctx,
                     cluster_name=cluster_name,
@@ -355,6 +369,11 @@ class HyperPodClusterNodeHandler:
                     profile_name=profile_name,
                 )
             elif operation == 'batch_delete':
+                # Ensure cluster_name and node_ids are not None
+                if cluster_name is None:
+                    raise ValueError('cluster_name is required for batch_delete operation')
+                if node_ids is None:
+                    raise ValueError('node_ids is required for batch_delete operation')
                 return await self._batch_delete_hp_cluster_nodes(
                     ctx=ctx,
                     cluster_name=cluster_name,
@@ -412,15 +431,13 @@ class HyperPodClusterNodeHandler:
             None,
             description='A filter that returns only clusters created before the specified time. Accepts formats: ISO 8601 (e.g., 2014-10-01T20:30:00.000Z), date only (e.g., 2014-10-01), or Unix time in seconds.',
         ),
-        sort_by: Optional[str] = Field(
-            'CREATION_TIME',
+        sort_by: Optional[Literal['NAME', 'CREATION_TIME']] = Field(
+            default='CREATION_TIME',
             description='The field to sort results by. The default is CREATION_TIME.',
-            enum=['NAME', 'CREATION_TIME'],
         ),
-        sort_order: Optional[str] = Field(
-            'Ascending',
+        sort_order: Optional[Literal['Ascending', 'Descending']] = Field(
+            default='Ascending',
             description='The sort order for results. The default is Ascending.',
-            enum=['Ascending', 'Descending'],
         ),
         training_plan_arn: Optional[str] = Field(
             None,
@@ -478,7 +495,7 @@ class HyperPodClusterNodeHandler:
             )
 
             # Prepare parameters for list_clusters API call
-            params = {}
+            params: dict[str, Any] = {}
 
             # Add parameters only if they are provided
             if max_results is not None:
@@ -935,15 +952,13 @@ class HyperPodClusterNodeHandler:
             None,
             description='If the response to a previous ListClusterNodes request was truncated, the response includes a NextToken. To retrieve the next set of nodes, use the token in the next request.',
         ),
-        sort_by: Optional[str] = Field(
-            'CREATION_TIME',
+        sort_by: Optional[Literal['CREATION_TIME', 'NAME']] = Field(
+            default='CREATION_TIME',
             description='The field to sort results by. The default is CREATION_TIME.',
-            enum=['CREATION_TIME', 'NAME'],
         ),
-        sort_order: Optional[str] = Field(
-            'Ascending',
+        sort_order: Optional[Literal['Ascending', 'Descending']] = Field(
+            default='Ascending',
             description='The sort order for results. The default is Ascending.',
-            enum=['Ascending', 'Descending'],
         ),
         region_name: Optional[SUPPORTED_REGIONS] = Field(
             'us-east-1',
@@ -996,7 +1011,7 @@ class HyperPodClusterNodeHandler:
             )
 
             # Prepare parameters for list_cluster_nodes API call
-            params = {'ClusterName': cluster_name}
+            params: dict[str, Any] = {'ClusterName': cluster_name}
 
             # Add parameters only if they are provided
             if max_results is not None:
@@ -1166,11 +1181,11 @@ class HyperPodClusterNodeHandler:
             )
 
             # Prepare parameters for update_cluster_software API call
-            params = {'ClusterName': cluster_name}
+            params: dict[str, Any] = {'ClusterName': cluster_name}
 
             # Add deployment configuration if provided
             if deployment_config:
-                deployment_config_dict = {}
+                deployment_config_dict: dict[str, Any] = {}
 
                 # Add auto rollback configuration if provided
                 if deployment_config.auto_rollback_configuration:
@@ -1289,8 +1304,8 @@ class HyperPodClusterNodeHandler:
         node_ids: List[str] = Field(
             ...,
             description='The list of node IDs to delete from the cluster.',
-            min_items=1,
-            max_items=99,
+            min_length=1,
+            max_length=99,
         ),
         region_name: Optional[SUPPORTED_REGIONS] = Field(
             'us-east-1',

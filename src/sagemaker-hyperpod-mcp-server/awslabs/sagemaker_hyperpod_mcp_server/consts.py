@@ -15,7 +15,7 @@
 """Constants for the HyperPod MCP Server."""
 
 # HyperPod Knowledge Base API
-from typing import Literal
+from typing import Literal, TypeAlias
 
 
 KB_API_ENDPOINT = 'https://bsjsq3rrn6.execute-api.us-west-2.amazonaws.com/live'
@@ -51,16 +51,14 @@ STACK_NOT_OWNED_ERROR_TEMPLATE = (
 )
 
 
-STACK_OPERATIONS = Literal[
-    STACK_DEPLOY_OPERATION, STACK_DESCRIBE_OPERATION, STACK_DELETE_OPERATION
-]
+STACK_OPERATIONS = Literal['deploy', 'describe', 'delete']
 
 SUPPORTED_REGIONS = Literal['us-east-1', 'us-east-2', 'us-west-1', 'us-west-2']
 
-NODE_OPERATIONS = Literal[
-    LIST_CLUSTERS_OPERATION,
-    LIST_NODES_OPERATION,
-    DESCRIBE_NODE_OPERATION,
-    UPDATE_SOFTWARE_OPERATION,
-    BATCH_DELETE_OPERATION,
+NODE_OPERATIONS: TypeAlias = Literal[
+    'list_clusters',
+    'list_nodes',
+    'describe_node',
+    'update_software',
+    'batch_delete',
 ]

@@ -1117,6 +1117,7 @@ class TestHyperPodClusterNodeHandler:
             # Verify the result is the same as the mock result
             assert result is mock_result
             assert not result.isError
+            assert isinstance(result, ListClusterNodesResponse)
             assert len(result.nodes) == 1
             assert result.nodes[0].instance_id == 'i-1234567890abcdef0'
             assert result.next_token == 'next-token'

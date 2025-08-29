@@ -1,8 +1,9 @@
 import os
 import pytest
+from typing import Dict
 
 
-TEMP_ENV_VARS = {}
+TEMP_ENV_VARS: Dict[str, str] = {}
 
 
 @pytest.fixture(scope='session', autouse=True)
