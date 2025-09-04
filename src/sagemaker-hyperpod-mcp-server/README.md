@@ -1,13 +1,13 @@
 # Amazon SageMaker HyperPod MCP Server
 
-The Amazon SageMaker HyperPod MCP server provides AI code assistants with resource management tools and real-time cluster state visibility. This provides large language models (LLMs) with essential tooling and contextual awareness, enabling AI code assistants to streamline application development through tailored guidance — from initial setup through production optimization and troubleshooting.
+The Amazon SageMaker HyperPod MCP server provides AI code assistants with resource management tools and real-time cluster state visibility. This provides large language models (LLMs) with essential tooling and contextual awareness, enabling AI code assistants to assist with application development through tailored guidance — from initial setup workflows through ongoing management and troubleshooting.
 
-Integrating the HyperPod MCP server into AI code assistants enhances development workflow across all phases, from simplifying initial cluster setup with automated prerequisite creation and application of best practices. Further, it streamlines cluster management with high-level workflows and automated code generation. Finally, it accelerates troubleshooting through intelligent debugging tools and knowledge base access. All of this simplifies complex operations through natural language interactions in AI code assistants.
+Integrating the HyperPod MCP server into AI code assistants enhances development workflow across all phases, from assisting with initial cluster setup workflows using the same managed CloudFormation templates as the AWS SageMaker HyperPod console UI. Further, it helps with cluster management through high-level workflows and guidance. Finally, it accelerates troubleshooting through intelligent debugging tools and knowledge base access. All of this simplifies complex operations through natural language interactions in AI code assistants.
 
 ## Key features
 
-* Enables users of AI code assistants to create new HyperPod clusters, complete with prerequisites such as dedicated VPCs, networking, and EKS integration, by translating requests into the appropriate AWS CloudFormation actions.
-* Provides the ability to manage HyperPod cluster stacks and resources via managed CloudFormation templates and user-provided custom parameter values.
+* Enables users of AI code assistants to interact with HyperPod cluster deployment workflows, utilizing the same managed CloudFormation templates used by the HyperPod console UI for consistent and approved deployments.
+* Provides the ability to interface with HyperPod cluster stacks and resources via managed CloudFormation templates and user-provided custom parameter values.
 * Supports full lifecycle management of HyperPod cluster nodes, enabling listing, describing, updating software, and deleting operations.
 * Enables users to ask HyperPod usage questions or troubleshoot issues with a HyperPod cluster through a specialized knowledge base.
 
@@ -270,15 +270,16 @@ The following tools are provided by the HyperPod MCP server for managing Amazon 
 
 #### `manage_hyperpod_stacks`
 
-Manages HyperPod CloudFormation stacks with operations for deploying, describing, and deleting HyperPod clusters and their underlying infrastructure. **Note**: Cluster creation typically takes around 30 minutes to complete.
+Provides interface to HyperPod CloudFormation stacks with operations for initiating deployments, describing, and deleting HyperPod clusters and their underlying infrastructure. **Note**: Cluster creation typically takes around 30 minutes to complete.
 
 Features:
 
-* Deploys HyperPod clusters using managed CloudFormation templates.
+* Interfaces with HyperPod cluster deployments using the same managed CloudFormation templates as the HyperPod console UI.
 * Allows users to specify parameter override values as a JSON object for more customized HyperPod stack creation.
 * Describes existing HyperPod CloudFormation stacks, providing details like status, outputs, and creation time.
 * Deletes HyperPod CloudFormation stacks and their associated resources, ensuring proper cleanup.
 * Ensures safety by only modifying/deleting stacks that were originally created by this tool.
+* Does not create, modify, or provision CloudFormation templates - only interfaces with existing managed templates.
 
 Parameters:
 
