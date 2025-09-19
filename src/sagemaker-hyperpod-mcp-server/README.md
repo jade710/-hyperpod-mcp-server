@@ -50,7 +50,7 @@ For read operations, the following permissions are required:
 
 For write operations, we recommend the following IAM policies to ensure successful deployment of HyperPod clusters using the managed CloudFormation templates:
 
-* [**IAMFullAccess**](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/IAMFullAccess.html): Enables creation and management of IAM roles and policies required for cluster operation
+* [**IAMFullAccess**](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/IAMFullAccess.html): Enables creation and management of IAM roles and policies required for cluster operation. After cluster creation and if no new IAM role needs to be created, we recommend reducing the scope of this policy permissions.
 * [**AmazonVPCFullAccess**](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonVPCFullAccess.html): Allows creation and configuration of VPC resources including subnets, route tables, internet gateways, and NAT gateways
 * [**AWSCloudFormationFullAccess**](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSCloudFormationFullAccess.html): Provides permissions to create, update, and delete CloudFormation stacks that orchestrate the deployment
 * [**AmazonSageMakerFullAccess**](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonSageMakerFullAccess.html): Required for creating and managing HyperPod clusters and cluster nodes
@@ -444,6 +444,22 @@ In accordance with security best practices, we recommend the following:
 * Use AWS Secrets Manager or Parameter Store to store sensitive information.
 * Configure proper IAM roles for service accounts.
 * Use IAM roles for service accounts (IRSA) for AWS service access from pods.
+
+
+### File System Access and Operating Mode
+
+**Important**: This MCP server is intended for **STDIO mode only** as a local server using a single user's credentials. The server runs with the same permissions as the user who started it and has complete access to the file system.
+
+#### Security and Access Considerations
+
+- **Full File System Access**: The server can read from and writeq to any location on the file system where the user has permissions
+- **Host File System Sharing**: When using this server, the host file system is directly accessible
+- **Do Not Modify for Network Use**: This server is designed for local STDIO use only; network operation introduces additional security risks
+
+#### Common File Operations
+
+The MCP server can create a templated params json file to a user-specified absolute file path during hyperpod cluster creation.
+
 
 ## General Best Practices
 
