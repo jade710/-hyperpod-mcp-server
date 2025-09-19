@@ -19,7 +19,13 @@ from ..aws.services import (
     extract_pagination_config,
 )
 from ..common.command import IRCommand, OutputFile
-from ..common.config import OPT_IN_TELEMETRY, READ_OPERATIONS_ONLY_MODE, REQUIRE_MUTATION_CONSENT
+from ..common.config import (
+    ENABLE_AGENT_SCRIPTS,
+    OPT_IN_TELEMETRY,
+    READ_OPERATIONS_ONLY_MODE,
+    REQUIRE_MUTATION_CONSENT,
+)
+from ..common.file_system_controls import validate_file_path
 from ..common.helpers import operation_timer
 from botocore.config import Config
 from jmespath.parser import ParsedResult
@@ -99,12 +105,17 @@ def _get_user_agent_extra() -> str:
         return user_agent_extra
     user_agent_extra += f' cfg/ro#{"1" if READ_OPERATIONS_ONLY_MODE else "0"}'
     user_agent_extra += f' cfg/consent#{"1" if REQUIRE_MUTATION_CONSENT else "0"}'
+    user_agent_extra += f' cfg/scripts#{"1" if ENABLE_AGENT_SCRIPTS else "0"}'
     return user_agent_extra
 
 
 def _handle_streaming_output(response: dict[str, Any], output_file: OutputFile) -> dict[str, Any]:
     streaming_output = response[output_file.response_key]
-    with open(output_file.path, 'wb') as f:
+
+    # Validate file path before writing
+    validated_path = validate_file_path(output_file.path)
+
+    with open(validated_path, 'wb') as f:
         for chunk in streaming_output.iter_chunks(chunk_size=CHUNK_SIZE):
             f.write(chunk)
 
