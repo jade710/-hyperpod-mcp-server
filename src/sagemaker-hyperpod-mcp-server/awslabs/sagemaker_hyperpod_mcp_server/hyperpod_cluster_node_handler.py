@@ -1166,15 +1166,6 @@ class HyperPodClusterNodeHandler:
         Returns:
             UpdateClusterSoftwareResponse with cluster ARN
         """
-        # if not self.allow_write:
-        #     error_msg = 'Write access is not enabled for this handler. Cannot update cluster software.'
-        #     log_with_request_id(ctx, LogLevel.ERROR, error_msg)
-        #     return UpdateClusterSoftwareResponse(
-        #         isError=True,
-        #         content=[TextContent(type='text', text=error_msg)],
-        #         cluster_arn="",
-        #     )
-
         try:
             # Get SageMaker client
             sagemaker_client = self.get_sagemaker_client(
@@ -1349,17 +1340,6 @@ class HyperPodClusterNodeHandler:
         Returns:
             BatchDeleteClusterNodesResponse with details of the deletion operation
         """
-        # if not self.allow_write:
-        #     error_msg = 'Write access is not enabled for this handler. Cannot delete cluster nodes.'
-        #     log_with_request_id(ctx, LogLevel.ERROR, error_msg)
-        #     return BatchDeleteClusterNodesResponse(
-        #         isError=True,
-        #         content=[TextContent(type='text', text=error_msg)],
-        #         cluster_name=cluster_name,
-        #         successful=[],
-        #         failed=None,
-        #     )
-
         try:
             # Get SageMaker client
             sagemaker_client = self.get_sagemaker_client(

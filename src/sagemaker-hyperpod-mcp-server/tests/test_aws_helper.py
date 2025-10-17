@@ -27,6 +27,7 @@ class TestAwsHelper:
         """Set up the test environment."""
         # Clear the client cache before each test
         AwsHelper._client_cache = {}
+        AwsHelper._cache_metadata = {}
 
     @patch.dict(os.environ, {'AWS_REGION': 'us-west-2'})
     def test_get_aws_region_from_env(self):

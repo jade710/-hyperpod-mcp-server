@@ -24,6 +24,8 @@ Environment Variables:
 """
 
 import argparse
+import os
+import sys
 from awslabs.sagemaker_hyperpod_mcp_server.hyperpod_cluster_node_handler import (
     HyperPodClusterNodeHandler,
 )
@@ -147,6 +149,10 @@ def create_server():
 def main():
     """Run the MCP server with CLI argument support."""
     global mcp
+
+    # Configure loguru logging
+    logger.remove()
+    logger.add(sys.stderr, level=os.getenv('FASTMCP_LOG_LEVEL', 'WARNING'))
 
     parser = argparse.ArgumentParser(
         description='An AWS Labs Model Context Protocol (MCP) server for SageMaker HyperPod'

@@ -16,6 +16,7 @@
 
 import boto3
 import os
+import time
 from awslabs.sagemaker_hyperpod_mcp_server.consts import SUPPORTED_REGIONS
 from botocore.config import Config
 from loguru import logger
@@ -34,7 +35,8 @@ class AwsHelper:
     including region and profile management and client creation.
 
     This class implements a singleton pattern with a client cache to avoid
-    creating multiple clients for the same service.
+    creating multiple clients for the same service. The cache includes TTL-based
+    expiration and size limits to prevent memory issues and handle credential rotation.
     """
 
     # Singleton instance
@@ -42,6 +44,11 @@ class AwsHelper:
 
     # Client cache with AWS service name as key
     _client_cache: Dict[str, Any] = {}
+
+    # Cache metadata for TTL and size management
+    _cache_metadata: Dict[str, float] = {}  # key -> timestamp
+    _cache_ttl: int = 1800  # 30 minutes TTL
+    _cache_max_size: int = 100  # Maximum 100 cache entries
 
     @staticmethod
     def get_aws_region() -> Optional[SUPPORTED_REGIONS]:
@@ -87,10 +94,27 @@ class AwsHelper:
             # Use service name as the cache key
             cache_key = f'{service_name}+{region_name}'
 
-            # Check if client is already in cache
+            # Check if client is already in cache and not expired
+            current_time = time.time()
             if cache_key in cls._client_cache:
-                logger.info(f'Using cached boto3 client for {service_name} in {region_name}')
-                return cls._client_cache[cache_key]
+                # Check TTL expiration (lazy expiration)
+                if cache_key in cls._cache_metadata:
+                    cache_time = cls._cache_metadata[cache_key]
+                    if current_time - cache_time < cls._cache_ttl:
+                        logger.info(
+                            f'Using cached boto3 client for {service_name} in {region_name}'
+                        )
+                        return cls._client_cache[cache_key]
+                    else:
+                        # Expired - remove from cache
+                        logger.info(
+                            f'Cache expired for {service_name} in {region_name}, creating new client'
+                        )
+                        del cls._client_cache[cache_key]
+                        del cls._cache_metadata[cache_key]
+                else:
+                    # No metadata, treat as expired
+                    del cls._client_cache[cache_key]
 
             # Create config with user agent suffix
             config = Config(
@@ -110,9 +134,19 @@ class AwsHelper:
                 else:
                     client = boto3.client(service_name, config=config)
 
-            # Cache the client
-            cls._client_cache[cache_key] = client
+            # Enforce cache size limit before adding new entry
+            if len(cls._client_cache) >= cls._cache_max_size:
+                # Remove oldest entry (simple FIFO eviction)
+                oldest_key = min(cls._cache_metadata.keys(), key=lambda k: cls._cache_metadata[k])
+                logger.info(f'Cache size limit reached, evicting oldest entry: {oldest_key}')
+                del cls._client_cache[oldest_key]
+                del cls._cache_metadata[oldest_key]
 
+            # Cache the client with timestamp metadata
+            cls._client_cache[cache_key] = client
+            cls._cache_metadata[cache_key] = current_time
+
+            logger.info(f'Created and cached new boto3 client for {service_name} in {region_name}')
             return client
         except Exception as e:
             # Re-raise with more context
