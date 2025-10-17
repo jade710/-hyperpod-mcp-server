@@ -57,6 +57,8 @@ For write operations, we recommend the following IAM policies to ensure successf
 * [**AmazonS3FullAccess**](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonS3FullAccess.html): Required for creating S3 buckets storing LifeCyle scripts and so on
 * [**AmazonAPIGatewayInvokeFullAccess**](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonAPIGatewayInvokeFullAccess.html): Required for accessing the HyperPod knowledge base service
 * [**AWSLambda_FullAccess**](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLambda_FullAccess.html): Required for interacting Lambda functions to manage HyperPod clusters and other resources
+* [**CloudWatchLogsFullAccess**](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/CloudWatchLogsFullAccess.html): Required for operations on CloudWatch logs
+* [**AmazonFSxFullAccess**](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonFSxFullAccess.html): Required for operations on FSx file systems
 * **EKS Full Access (provided below)**: Required for interacting with EKS clusters orchestrating HyperPod
 
    ```
