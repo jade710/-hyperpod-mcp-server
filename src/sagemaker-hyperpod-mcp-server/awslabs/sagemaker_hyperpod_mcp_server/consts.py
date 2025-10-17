@@ -14,13 +14,7 @@
 
 """Constants for the HyperPod MCP Server."""
 
-# HyperPod Knowledge Base API
 from typing import Literal, TypeAlias
-
-
-KB_API_ENDPOINT = 'https://bsjsq3rrn6.execute-api.us-west-2.amazonaws.com/live'
-KB_AWS_REGION = 'us-west-2'
-KB_AWS_SERVICE = 'execute-api'
 
 
 # HyperPod Stack Management Operations
