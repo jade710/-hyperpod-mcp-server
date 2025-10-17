@@ -19,6 +19,7 @@ import pytest
 import yaml  # type: ignore
 from awslabs.sagemaker_hyperpod_mcp_server.aws_helper import AwsHelper
 from awslabs.sagemaker_hyperpod_mcp_server.consts import (
+    CAPABILITY_AUTO_EXPAND,
     CFN_CAPABILITY_IAM,
     CFN_CAPABILITY_NAMED_IAM,
     CFN_ON_FAILURE_DELETE,
@@ -111,6 +112,7 @@ class TestHyperPodStackHandler:
                         template_params=[],
                         region_name=self.TEST_REGION,
                         stack_name=self.TEST_STACK_NAME,
+                        cluster_orchestrator='eks',
                     )
 
                 # Verify that AwsHelper.create_boto3_client was called with the correct parameters
@@ -125,7 +127,11 @@ class TestHyperPodStackHandler:
                 assert kwargs['StackName'] == self.TEST_STACK_NAME
                 assert 'TemplateURL' in kwargs
                 assert kwargs['Parameters'] == []
-                assert kwargs['Capabilities'] == [CFN_CAPABILITY_IAM, 'CAPABILITY_NAMED_IAM']
+                assert kwargs['Capabilities'] == [
+                    CFN_CAPABILITY_IAM,
+                    CFN_CAPABILITY_NAMED_IAM,
+                    CAPABILITY_AUTO_EXPAND,
+                ]
                 assert kwargs['OnFailure'] == CFN_ON_FAILURE_DELETE
                 assert kwargs['Tags'] == [{'Key': CFN_STACK_TAG_KEY, 'Value': CFN_STACK_TAG_VALUE}]
 
@@ -306,6 +312,7 @@ class TestHyperPodStackHandler:
                     template_params=[],
                     region_name=self.TEST_REGION,
                     stack_name=self.TEST_STACK_NAME,
+                    cluster_orchestrator='eks',
                 )
 
                 # Verify that AwsHelper.create_boto3_client was called with the correct parameters
@@ -319,7 +326,11 @@ class TestHyperPodStackHandler:
                 assert kwargs['StackName'] == self.TEST_STACK_NAME
                 assert 'TemplateURL' in kwargs
                 assert kwargs['Parameters'] == []
-                assert kwargs['Capabilities'] == [CFN_CAPABILITY_IAM, CFN_CAPABILITY_NAMED_IAM]
+                assert kwargs['Capabilities'] == [
+                    CFN_CAPABILITY_IAM,
+                    CFN_CAPABILITY_NAMED_IAM,
+                    CAPABILITY_AUTO_EXPAND,
+                ]
                 assert kwargs['Tags'] == [{'Key': CFN_STACK_TAG_KEY, 'Value': CFN_STACK_TAG_VALUE}]
 
                 # Verify the result
@@ -783,6 +794,7 @@ class TestHyperPodStackHandler:
                 template_params=[],
                 stack_name=self.TEST_STACK_NAME,
                 region_name=self.TEST_REGION,
+                cluster_orchestrator='eks',
             )
             assert result.isError
             assert 'Failed to deploy stack' in result.content[0].text
@@ -980,6 +992,7 @@ class TestHyperPodStackHandler:
                 template_params=[],
                 stack_name=self.TEST_STACK_NAME,
                 region_name=self.TEST_REGION,
+                cluster_orchestrator='eks',
             )
             assert result.isError
             assert 'Failed to deploy stack' in result.content[0].text
@@ -1005,6 +1018,7 @@ class TestHyperPodStackHandler:
                 template_params=[],
                 stack_name=self.TEST_STACK_NAME,
                 region_name=self.TEST_REGION,
+                cluster_orchestrator='eks',
             )
             assert result.isError
             assert 'Failed to deploy stack' in result.content[0].text
@@ -1161,6 +1175,7 @@ class TestHyperPodStackHandler:
                     template_params=[],
                     stack_name=self.TEST_STACK_NAME,
                     region_name=self.TEST_REGION,
+                    cluster_orchestrator='eks',
                 )
                 assert not result.isError
                 assert result.stack_arn == 'test-stack-id'
@@ -1214,6 +1229,7 @@ class TestHyperPodStackHandler:
                     template_params=[],
                     stack_name=self.TEST_STACK_NAME,
                     region_name=self.TEST_REGION,
+                    cluster_orchestrator='eks',
                 )
                 assert result.isError
                 assert 'Not owned' in result.content[0].text

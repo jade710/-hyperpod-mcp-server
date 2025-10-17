@@ -27,7 +27,6 @@ from unittest.mock import MagicMock, patch
 # Mock modules that might not be installed
 sys.modules['requests_auth_aws_sigv4'] = MagicMock()
 sys.modules['requests'] = MagicMock()
-from awslabs.sagemaker_hyperpod_mcp_server.hyperpod_kb_handler import HyperPodKnowledgeBaseHandler
 
 
 @pytest.mark.asyncio
@@ -52,7 +51,6 @@ async def test_server_initialization():
     assert 'requests' in server.dependencies
     assert 'pyyaml' in server.dependencies
     assert 'cachetools' in server.dependencies
-    assert 'requests_auth_aws_sigv4' in server.dependencies
 
 
 @pytest.mark.asyncio
@@ -80,24 +78,20 @@ async def test_command_line_args():
                 with patch(
                     'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler'
                 ) as mock_hyperpod_stack_handler:
-                    with patch(
-                        'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodKnowledgeBaseHandler'
-                    ) as mock_kb_handler:
-                        # Call the main function
-                        main()
+                    # Call the main function
+                    main()
 
-                        # Verify that parse_args was called
-                        mock_parse_args.assert_called_once()
+                    # Verify that parse_args was called
+                    mock_parse_args.assert_called_once()
 
-                        # Verify that the handlers were initialized with correct parameters
-                        mock_hyperpod_cluster_node_handler.assert_called_once_with(
-                            mock_server, False, False
-                        )
-                        mock_hyperpod_stack_handler.assert_called_once_with(mock_server, False)
-                        mock_kb_handler.assert_called_once_with(mock_server)
+                    # Verify that the handlers were initialized with correct parameters
+                    mock_hyperpod_cluster_node_handler.assert_called_once_with(
+                        mock_server, False, False
+                    )
+                    mock_hyperpod_stack_handler.assert_called_once_with(mock_server, False)
 
-                        # Verify that run was called
-                        mock_server.run.assert_called_once()
+                    # Verify that run was called
+                    mock_server.run.assert_called_once()
 
     # Test with write access enabled
     with patch.object(argparse.ArgumentParser, 'parse_args') as mock_parse_args:
@@ -117,24 +111,20 @@ async def test_command_line_args():
                 with patch(
                     'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler'
                 ) as mock_hyperpod_stack_handler:
-                    with patch(
-                        'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodKnowledgeBaseHandler'
-                    ) as mock_kb_handler:
-                        # Call the main function
-                        main()
+                    # Call the main function
+                    main()
 
-                        # Verify that parse_args was called
-                        mock_parse_args.assert_called_once()
+                    # Verify that parse_args was called
+                    mock_parse_args.assert_called_once()
 
-                        # Verify that the handlers were initialized with correct parameters
-                        mock_hyperpod_cluster_node_handler.assert_called_once_with(
-                            mock_server, True, False
-                        )
-                        mock_hyperpod_stack_handler.assert_called_once_with(mock_server, True)
-                        mock_kb_handler.assert_called_once_with(mock_server)
+                    # Verify that the handlers were initialized with correct parameters
+                    mock_hyperpod_cluster_node_handler.assert_called_once_with(
+                        mock_server, True, False
+                    )
+                    mock_hyperpod_stack_handler.assert_called_once_with(mock_server, True)
 
-                        # Verify that run was called
-                        mock_server.run.assert_called_once()
+                    # Verify that run was called
+                    mock_server.run.assert_called_once()
 
     # Test with sensitive data access enabled
     with patch.object(argparse.ArgumentParser, 'parse_args') as mock_parse_args:
@@ -154,24 +144,20 @@ async def test_command_line_args():
                 with patch(
                     'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler'
                 ) as mock_hyperpod_stack_handler:
-                    with patch(
-                        'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodKnowledgeBaseHandler'
-                    ) as mock_kb_handler:
-                        # Call the main function
-                        main()
+                    # Call the main function
+                    main()
 
-                        # Verify that parse_args was called
-                        mock_parse_args.assert_called_once()
+                    # Verify that parse_args was called
+                    mock_parse_args.assert_called_once()
 
-                        # Verify that the handlers were initialized with correct parameters
-                        mock_hyperpod_cluster_node_handler.assert_called_once_with(
-                            mock_server, False, True
-                        )
-                        mock_hyperpod_stack_handler.assert_called_once_with(mock_server, False)
-                        mock_kb_handler.assert_called_once_with(mock_server)
+                    # Verify that the handlers were initialized with correct parameters
+                    mock_hyperpod_cluster_node_handler.assert_called_once_with(
+                        mock_server, False, True
+                    )
+                    mock_hyperpod_stack_handler.assert_called_once_with(mock_server, False)
 
-                        # Verify that run was called
-                        mock_server.run.assert_called_once()
+                    # Verify that run was called
+                    mock_server.run.assert_called_once()
 
     # Test with both write access and sensitive data access enabled
     with patch.object(argparse.ArgumentParser, 'parse_args') as mock_parse_args:
@@ -191,24 +177,20 @@ async def test_command_line_args():
                 with patch(
                     'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler'
                 ) as mock_hyperpod_stack_handler:
-                    with patch(
-                        'awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodKnowledgeBaseHandler'
-                    ) as mock_kb_handler:
-                        # Call the main function
-                        main()
+                    # Call the main function
+                    main()
 
-                        # Verify that parse_args was called
-                        mock_parse_args.assert_called_once()
+                    # Verify that parse_args was called
+                    mock_parse_args.assert_called_once()
 
-                        # Verify that the handlers were initialized with both flags
-                        mock_hyperpod_cluster_node_handler.assert_called_once_with(
-                            mock_server, True, True
-                        )
-                        mock_hyperpod_stack_handler.assert_called_once_with(mock_server, True)
-                        mock_kb_handler.assert_called_once_with(mock_server)
+                    # Verify that the handlers were initialized with both flags
+                    mock_hyperpod_cluster_node_handler.assert_called_once_with(
+                        mock_server, True, True
+                    )
+                    mock_hyperpod_stack_handler.assert_called_once_with(mock_server, True)
 
-                        # Verify that run was called
-                        mock_server.run.assert_called_once()
+                    # Verify that run was called
+                    mock_server.run.assert_called_once()
 
 
 @pytest.mark.asyncio
@@ -247,17 +229,3 @@ async def test_hyperpod_stack_handler_initialization():
     mock_mcp.tool.assert_called_once()
     call_args = mock_mcp.tool.call_args
     assert call_args[1]['name'] == 'manage_hyperpod_stacks'
-
-
-@pytest.mark.asyncio
-async def test_hyperpod_kb_handler_initialization():
-    """Test the initialization of the HyperPodKnowledgeBaseHandler."""
-    # Create a mock MCP server
-    mock_mcp = MagicMock()
-
-    HyperPodKnowledgeBaseHandler(mock_mcp)
-
-    # Verify that the tool was registered
-    mock_mcp.tool.assert_called_once()
-    call_args = mock_mcp.tool.call_args
-    assert call_args[1]['name'] == 'search_hyperpod_knowledge_base'

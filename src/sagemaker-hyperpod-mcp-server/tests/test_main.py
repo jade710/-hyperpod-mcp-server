@@ -30,7 +30,6 @@ class TestMain:
 
     @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodClusterNodeHandler')
     @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodKnowledgeBaseHandler')
     @patch('awslabs.sagemaker_hyperpod_mcp_server.server.create_server')
     @patch('awslabs.sagemaker_hyperpod_mcp_server.server.logger')
     @patch('sys.argv', ['awslabs.sagemaker-hyperpod-mcp-server'])
@@ -38,7 +37,6 @@ class TestMain:
         self,
         mock_logger,
         mock_create_server,
-        mock_kb_handler,
         mock_stack_handler,
         mock_api_handler,
     ):
@@ -56,7 +54,6 @@ class TestMain:
         # Check that the handlers were initialized with the correct parameters
         mock_api_handler.assert_called_once_with(mock_mcp, False, False)
         mock_stack_handler.assert_called_once_with(mock_mcp, False)
-        mock_kb_handler.assert_called_once_with(mock_mcp)
 
         # Check that the server was run
         mock_mcp.run.assert_called_once()
@@ -71,7 +68,6 @@ class TestMain:
 
     @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodClusterNodeHandler')
     @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodKnowledgeBaseHandler')
     @patch('awslabs.sagemaker_hyperpod_mcp_server.server.create_server')
     @patch('awslabs.sagemaker_hyperpod_mcp_server.server.logger')
     @patch('sys.argv', ['awslabs.sagemaker-hyperpod-mcp-server', '--allow-write'])
@@ -79,7 +75,6 @@ class TestMain:
         self,
         mock_logger,
         mock_create_server,
-        mock_kb_handler,
         mock_stack_handler,
         mock_api_handler,
     ):
@@ -104,7 +99,6 @@ class TestMain:
         # Check that the handlers were initialized with the correct parameters
         mock_api_handler.assert_called_once_with(mock_mcp, True, False)
         mock_stack_handler.assert_called_once_with(mock_mcp, True)
-        mock_kb_handler.assert_called_once_with(mock_mcp)
 
         # Check that the server was run
         mock_mcp.run.assert_called_once()
@@ -119,7 +113,6 @@ class TestMain:
 
     @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodClusterNodeHandler')
     @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodKnowledgeBaseHandler')
     @patch('awslabs.sagemaker_hyperpod_mcp_server.server.create_server')
     @patch('awslabs.sagemaker_hyperpod_mcp_server.server.logger')
     @patch('sys.argv', ['awslabs.sagemaker-hyperpod-mcp-server', '--allow-sensitive-data-access'])
@@ -127,7 +120,6 @@ class TestMain:
         self,
         mock_logger,
         mock_create_server,
-        mock_kb_handler,
         mock_stack_handler,
         mock_api_handler,
     ):
@@ -152,7 +144,6 @@ class TestMain:
         # Check that the handlers were initialized with the correct parameters
         mock_api_handler.assert_called_once_with(mock_mcp, False, True)
         mock_stack_handler.assert_called_once_with(mock_mcp, False)
-        mock_kb_handler.assert_called_once_with(mock_mcp)
 
         # Check that the server was run
         mock_mcp.run.assert_called_once()
@@ -165,7 +156,6 @@ class TestMain:
 
     @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodClusterNodeHandler')
     @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodKnowledgeBaseHandler')
     @patch('awslabs.sagemaker_hyperpod_mcp_server.server.create_server')
     @patch('awslabs.sagemaker_hyperpod_mcp_server.server.logger')
     @patch(
@@ -180,7 +170,6 @@ class TestMain:
         self,
         mock_logger,
         mock_create_server,
-        mock_kb_handler,
         mock_stack_handler,
         mock_api_handler,
     ):
@@ -205,7 +194,6 @@ class TestMain:
         # Check that the handlers were initialized with the correct parameters
         mock_api_handler.assert_called_once_with(mock_mcp, True, True)
         mock_stack_handler.assert_called_once_with(mock_mcp, True)
-        mock_kb_handler.assert_called_once_with(mock_mcp)
 
         # Check that the server was run
         mock_mcp.run.assert_called_once()
