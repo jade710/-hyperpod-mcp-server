@@ -1,15 +1,14 @@
 # Amazon SageMaker HyperPod MCP Server
 
-The Amazon SageMaker HyperPod MCP server provides AI code assistants with resource management tools and real-time cluster state visibility. This provides large language models (LLMs) with essential tooling and contextual awareness, enabling AI code assistants to assist with application development through tailored guidance — from initial setup workflows through ongoing management and troubleshooting.
+The Amazon SageMaker HyperPod MCP server provides AI code assistants with resource management tools and real-time cluster state visibility. This provides large language models (LLMs) with essential tooling and contextual awareness, enabling AI code assistants to assist with application development through tailored guidance — from initial setup workflows through ongoing management.
 
-Integrating the HyperPod MCP server into AI code assistants enhances development workflow across all phases, from assisting with initial cluster setup workflows using the same managed CloudFormation templates as the AWS SageMaker HyperPod console UI. Further, it helps with cluster management through high-level workflows and guidance. Finally, it accelerates troubleshooting through intelligent debugging tools and knowledge base access. All of this simplifies complex operations through natural language interactions in AI code assistants.
+Integrating the HyperPod MCP server into AI code assistants enhances development workflow across all phases, from assisting with initial cluster setup workflows using the same managed CloudFormation templates as the AWS SageMaker HyperPod console UI. Further, it helps with cluster management through high-level workflows and guidance. All of this simplifies complex operations through natural language interactions in AI code assistants.
 
 ## Key features
 
 * Enables users of AI code assistants to interact with HyperPod cluster deployment workflows, utilizing the same managed CloudFormation templates used by the HyperPod console UI for consistent and approved deployments.
 * Provides the ability to interface with HyperPod cluster stacks and resources via managed CloudFormation templates and user-provided custom parameter values.
 * Supports full lifecycle management of HyperPod cluster nodes, enabling listing, describing, updating software, and deleting operations.
-* Enables users to ask HyperPod usage questions or troubleshoot issues with a HyperPod cluster through a specialized knowledge base.
 
 ## Prerequisites
 
@@ -37,8 +36,7 @@ For read operations, the following permissions are required:
         "sagemaker:DescribeCluster",
         "sagemaker:ListClusterNodes",
         "sagemaker:DescribeClusterNode",
-        "cloudformation:DescribeStacks",
-        "execute-api:Invoke"
+        "cloudformation:DescribeStacks"
       ],
       "Resource": "*"
     }
@@ -55,7 +53,6 @@ For write operations, we recommend the following IAM policies to ensure successf
 * [**AWSCloudFormationFullAccess**](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSCloudFormationFullAccess.html): Provides permissions to create, update, and delete CloudFormation stacks that orchestrate the deployment
 * [**AmazonSageMakerFullAccess**](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonSageMakerFullAccess.html): Required for creating and managing HyperPod clusters and cluster nodes
 * [**AmazonS3FullAccess**](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonS3FullAccess.html): Required for creating S3 buckets storing LifeCyle scripts and so on
-* [**AmazonAPIGatewayInvokeFullAccess**](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonAPIGatewayInvokeFullAccess.html): Required for accessing the HyperPod knowledge base service
 * [**AWSLambda_FullAccess**](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLambda_FullAccess.html): Required for interacting Lambda functions to manage HyperPod clusters and other resources
 * [**CloudWatchLogsFullAccess**](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/CloudWatchLogsFullAccess.html): Required for operations on CloudWatch logs
 * [**AmazonFSxFullAccess**](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonFSxFullAccess.html): Required for operations on FSx file systems
@@ -318,19 +315,6 @@ Parameters:
 * node_ids (required for batch_delete operation)
 * Additional parameters specific to each operation
 
-### Troubleshooting
-
-#### `search_hyperpod_knowledge_base`
-
-Searches the HyperPod User Guide for AWS documentations and Troubleshoot Guide for troubleshooting information based on a query.
-
-Features:
-
-* Provides detailed usage or troubleshooting guidance for Amazon SageMaker HyperPod questions.
-
-Parameters:
-
-* query
 
 ## Security & permissions
 
@@ -359,7 +343,7 @@ When using the HyperPod MCP Server, consider the following:
 
 The HyperPod MCP Server can be used for production environments with proper security controls in place. The server runs in read-only mode by default, which is recommended and considered generally safer for production environments. Only explicitly enable write access when necessary. Below are the HyperPod MCP server tools available in read-only versus write-access mode:
 
-* **Read-only mode (default)**: `manage_hyperpod_stacks` (with operation="describe"), `manage_hyperpod_cluster_nodes` (with operations="list_clusters", "list_nodes", "describe_node"), `search_hyperpod_knowledge_base`.
+* **Read-only mode (default)**: `manage_hyperpod_stacks` (with operation="describe"), `manage_hyperpod_cluster_nodes` (with operations="list_clusters", "list_nodes", "describe_node").
 * **Write-access mode**: (require `--allow-write`): `manage_hyperpod_stacks` (with "deploy", "delete"), `manage_hyperpod_cluster_nodes` (with operations="update_software", "batch_delete").
 
 #### `autoApprove` (optional)
@@ -382,8 +366,7 @@ An array within the MCP server definition that lists tool names to be automatica
       },
       "autoApprove": [
         "manage_hyperpod_stacks",
-        "manage_hyperpod_cluster_nodes",
-        "search_hyperpod_knowledge_base"
+        "manage_hyperpod_cluster_nodes"
       ]
     }
   }
@@ -408,8 +391,7 @@ An array within the MCP server definition that lists tool names to be automatica
       },
       "autoApprove": [
         "manage_hyperpod_stacks",
-        "manage_hyperpod_cluster_nodes",
-        "search_hyperpod_knowledge_base"
+        "manage_hyperpod_cluster_nodes"
       ]
     }
   }

@@ -27,7 +27,6 @@ import argparse
 from awslabs.sagemaker_hyperpod_mcp_server.hyperpod_cluster_node_handler import (
     HyperPodClusterNodeHandler,
 )
-from awslabs.sagemaker_hyperpod_mcp_server.hyperpod_kb_handler import HyperPodKnowledgeBaseHandler
 from awslabs.sagemaker_hyperpod_mcp_server.hyperpod_stack_handler import HyperPodStackHandler
 from loguru import logger
 from mcp.server.fastmcp import FastMCP
@@ -62,14 +61,6 @@ DO NOT use standard SageMaker CLI commands (aws sagemaker). Always use the MCP t
 - `deploy`: Create or update a HyperPod cluster via CloudFormation stack (requires --allow-write)
 - `describe`: Get information about an existing CloudFormation stack
 - `delete`: Delete a CloudFormation stack and associated HyperPod cluster (requires --allow-write)
-
-### 3. HyperPod Knowledge Base Search: `search_hyperpod_knowledge_base`
-**Tool for getting HyperPod documentation and troubleshooting help**
-
-**Purpose:**
-- Get answers to HyperPod usage questions
-- Troubleshoot common issues
-- Access HyperPod best practices and guidance
 
 
 ## Usage Notes
@@ -113,14 +104,6 @@ manage_hyperpod_cluster_nodes(operation='batch_delete', cluster_name='my-cluster
 manage_hyperpod_stacks(operation='delete', stack_name='my-cluster-stack', region_name='us-east-1')
 ```
 
-### 4. Getting Help and Troubleshooting
-```
-# Search for usage guidance
-search_hyperpod_knowledge_base(query='How to create a HyperPod cluster with EKS orchestration?')
-
-# Get troubleshooting help
-search_hyperpod_knowledge_base(query='EKS Add-on Installation Failures')
-```
 
 ## Best Practices
 
@@ -128,7 +111,6 @@ search_hyperpod_knowledge_base(query='EKS Add-on Installation Failures')
 - **Stack Management**: Use CloudFormation stacks (manage_hyperpod_stacks) for infrastructure as code and consistent deployments
 - **Monitoring**: Regularly check cluster and node status using list and describe operations
 - **Safety**: Always verify resource details before performing destructive operations (delete, batch_delete)
-- **Troubleshooting**: Use the knowledge base search tool for guidance on common issues
 - **Access Control**: Follow the principle of least privilege when configuring IAM policies
 - **Regional Considerations**: Specify the correct region for all operations to ensure you're working with the right resources
 
@@ -147,7 +129,6 @@ SERVER_DEPENDENCIES = [
     'requests',
     'pyyaml',
     'cachetools',
-    'requests_auth_aws_sigv4',
 ]
 
 # Global reference to the MCP server instance for testing purposes
@@ -204,7 +185,6 @@ def main():
     # Initialize handlers - all tools are always registered, access control is handled within tools
     HyperPodClusterNodeHandler(mcp, allow_write, allow_sensitive_data_access)
     HyperPodStackHandler(mcp, allow_write)
-    HyperPodKnowledgeBaseHandler(mcp)
 
     # Run server
     mcp.run()
