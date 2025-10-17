@@ -38,10 +38,12 @@ BATCH_DELETE_OPERATION = 'batch_delete'
 # AWS CloudFormation
 CFN_CAPABILITY_IAM = 'CAPABILITY_IAM'
 CFN_CAPABILITY_NAMED_IAM = 'CAPABILITY_NAMED_IAM'
+CAPABILITY_AUTO_EXPAND = 'CAPABILITY_AUTO_EXPAND'
 CFN_ON_FAILURE_DELETE = 'DELETE'
 CFN_STACK_TAG_KEY = 'CreatedBy'
 CFN_STACK_TAG_VALUE = 'HyperPodMCPServer'
-HYPERPOD_CFN_TEMPLATE_URL = 'https://aws-sagemaker-hyperpod-cluster-setup-us-east-1-prod.s3.us-east-1.amazonaws.com/templates/main-stack-eks-based-template.yaml'
+HYPERPOD_CFN_TEMPLATE_URL_EKS = 'https://aws-sagemaker-hyperpod-cluster-setup-us-east-1-prod.s3.us-east-1.amazonaws.com/templates/main-stack-eks-based-template.yaml'
+HYPERPOD_CFN_TEMPLATE_URL_SLURM = 'https://aws-sagemaker-hyperpod-cluster-setup-us-east-1-prod.s3.us-east-1.amazonaws.com/templates-slurm/main-stack-slurm-based-template.yaml'
 
 # Error message templates
 STACK_NOT_OWNED_ERROR_TEMPLATE = (
@@ -54,6 +56,8 @@ STACK_NOT_OWNED_ERROR_TEMPLATE = (
 STACK_OPERATIONS = Literal['deploy', 'describe', 'delete']
 
 SUPPORTED_REGIONS = Literal['us-east-1', 'us-east-2', 'us-west-1', 'us-west-2']
+
+CLUSTER_ORCHESTRATORS = Literal['eks', 'slurm']
 
 NODE_OPERATIONS: TypeAlias = Literal[
     'list_clusters',

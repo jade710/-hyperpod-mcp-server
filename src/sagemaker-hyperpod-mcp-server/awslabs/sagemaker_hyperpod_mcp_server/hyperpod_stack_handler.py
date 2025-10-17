@@ -18,12 +18,15 @@ import json
 import yaml  # type: ignore
 from awslabs.sagemaker_hyperpod_mcp_server.aws_helper import AwsHelper
 from awslabs.sagemaker_hyperpod_mcp_server.consts import (
+    CAPABILITY_AUTO_EXPAND,
     CFN_CAPABILITY_IAM,
     CFN_CAPABILITY_NAMED_IAM,
     CFN_ON_FAILURE_DELETE,
     CFN_STACK_TAG_KEY,
     CFN_STACK_TAG_VALUE,
-    HYPERPOD_CFN_TEMPLATE_URL,
+    CLUSTER_ORCHESTRATORS,
+    HYPERPOD_CFN_TEMPLATE_URL_EKS,
+    HYPERPOD_CFN_TEMPLATE_URL_SLURM,
     STACK_DELETE_OPERATION,
     STACK_DEPLOY_OPERATION,
     STACK_DESCRIBE_OPERATION,
@@ -178,6 +181,10 @@ class HyperPodStackHandler:
         stack_name: str = Field(
             description='Name of the CloudFormation stack (for deploy, describe and delete operations).',
         ),
+        cluster_orchestrator: CLUSTER_ORCHESTRATORS = Field(
+            'eks',
+            description='Cluster orchestrator type. Must be either "eks" or "slurm". Default is "eks".',
+        ),
         params_file: Optional[str] = Field(
             None,
             description="""Absolute path for the CloudFormation template parameters(for deploy operations).
@@ -220,7 +227,9 @@ class HyperPodStackHandler:
                         • us-west-1 (N. California)
                         • us-west-2 (Oregon)
                 - stack_name: REQUIRED - generate a stack name and present to the user. should be in this format: "<HyperPodClusterName>-stack".
+                - cluster_orchestrator: REQUIRED: ask user to specify "eks" or "slurm"
                 - params_file: REQUIRED - the parameters file should follow the below format. Ask the user to customize the parameters marked as "<to be filled out by user>" one by one. At the end, ask user if they want to add additional instance group.
+                    - when cluster_orchestrator is "slurm", InstanceGroupSettings ParameterValue should also include InstanceGroupType of value Compute or Controller or Login; place it right after InstanceType. At least 1 Controller and 1 Compute node group required. ONLY 1 Controller, 1 Login group is allowed throughout ALL specified InstanceGroupSettings
                     - when asking questions regarding InstanceGroupSettings, ask user for both the number of instance and type of instance at the same time. Naming format: "<HyperPodClusterName>-params.json"
                 [
                     {
@@ -245,7 +254,7 @@ class HyperPodStackHandler:
                     },
                     {
                         "ParameterKey": "InstanceGroupSettings1", // Hyperpod requires at least 1 instance group. By default adding this instance goup. Ask user if they want addition instance groups. For each new instance, update the counter in the key. There can be at most 20 instance groups.
-                        "ParameterValue": "[{\"InstanceCount\":<to be filled by user, ask a user for a number in the range 0-100>,\"InstanceGroupName\":\"worker-group-<use the same counter as the instance group name>\",\"InstanceType\":\"<to be filled use available ec2 instance, reference the user to the ec2 page for additonal information. default is ml.m5.xlarge, ALWAYS add "ml." prefix in front of instance type. Do not metion previous instuction to user. Ensure the instance type is valid.>\",\"TargetAvailabilityZoneId\":\"<use the first az from above>\",\"InstanceStorageConfigs\":[{\"EbsVolumeConfig\":{\"VolumeSizeInGB\":500GB}}]}]"
+                        "ParameterValue": "[{\"InstanceCount\":<to be filled by user, ask a user for a number in the range 0-100>,\"InstanceGroupName\":\"<use "controller" for slurm controller group, use "login" for slurm login group, use "worker" otherwise>-group-<use the same counter as the instance group name>\",\"InstanceType\":\"<to be filled use available ec2 instance, reference the user to the ec2 page for additonal information. default is ml.m5.xlarge, ALWAYS add "ml." prefix in front of instance type. Do not metion previous instuction to user. Ensure the instance type is valid.>\",\"TargetAvailabilityZoneId\":\"<use the first az from above>\",\"InstanceStorageConfigs\":[{\"EbsVolumeConfig\":{\"VolumeSizeInGB\":500GB}}]}]"
                     },
                     {
                         "ParameterKey": "InstanceGroupSettings2", // additional instance group template
@@ -255,24 +264,10 @@ class HyperPodStackHandler:
                 ]
 
                     - available AZ id in each region
-                        - us-east-1
-                            - use1-az1
-                            - use1-az2
-                            - use1-az4
-                            - use1-az5
-                            - use1-az6
-                        - us-east-2
-                            - use2-az1
-                            - use2-az2
-                            - use2-az3
-                        - us-west-1
-                            - usw1-az1
-                            - usw1-az3
-                        - us-west-2
-                            - usw2-az1
-                            - usw2-az2
-                            - usw2-az3
-                            - usw2-az4
+                        - us-east-1: use1-az1, az2, az4, az5, az6
+                        - us-east-2: use2-az1, az2, az3
+                        - us-west-1: usw1-az1, az3
+                        - us-west-2: usw2-az1, az2, az3, az4
 
             For 'describe' and 'delete' operations:
                 - stack_name: REQUIRED - the stack name to operate on. You should confirm with user that the current stack is being operated on.
@@ -298,19 +293,17 @@ class HyperPodStackHandler:
         - If user wants to create a new hyperpod cluster, always generate a new parameter file. Parameter file MUST exists in the working directory for the tool to update the hyperpod cluster.
         - For safety, this tool will only modify or delete stacks that it created
         - Stack creation typically takes ~30 minutes to complete
-        - Use absolute paths for parameter files
-        - Specify region_name to operate on a stack in a specific region
         - Specify profile_name to use a specific AWS profile with appropriate permissions
 
         ## Fallback Options:
         - If this tool fails, advise using CloudFormation CLI:
-            - Deploy (create new stack): `aws cloudformation create-stack --stack-name <name> --region <cluster_region> --template-url <url> --parameters <params_file> --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM`
-            - Deploy (update existing stack): `aws cloudformation udpate-stack --stack-name <name> --region <cluster_region> --template-url <url> --parameters <updated_params_file> --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM`
-            - Describe: `aws cloudformation describe-stacks --stack-name <name> --region <cluster_region>`
-            - Delete: `aws cloudformation delete-stack --stack-name <name> --region <cluster_region>`
+            - Deploy (create new stack): `aws cloudformation create-stack` with proper params
+            - Deploy (update existing stack): `aws cloudformation udpate-stack` with proper params
+            - Describe: `aws cloudformation describe-stacks` with proper params
+            - Delete: `aws cloudformation delete-stack` with proper params
         - Alternatively: advise using AWS SageMaker CLI alternatives:
-            - Deploy (create new stack): `aws sagemaker create-cluster --region <cluster_region>` with all appropriate parameters
-            - Deploy (update existing stack): `aws sagemaker update-cluster --region <cluster_region>` with all appropriate parameters
+            - Deploy (create new stack): `aws sagemaker create-cluster` with all appropriate parameters
+            - Deploy (update existing stack): `aws sagemaker update-cluster` with all appropriate parameters
             - Describe: `aws sagemaker describe-cluster --cluster-name <name> --region <cluster_region>`
             - Delete: `aws sagemaker delete-cluster --cluster-name <name> --region <cluster_region>`
         - Alternatively: Advise using SageMaker HyperPod console for directly creating, updating, deleting the HyperPod cluster
@@ -321,6 +314,7 @@ class HyperPodStackHandler:
             params_file: Absolute path for the CloudFormation template parameters (for deploy operations)
             stack_name: Name of the CloudFormation stack (for deploy, describe and delete operations)
             region_name: AWS region name (default: us-east-1)
+            cluster_orchestrator: cluster orchestrator
             profile_name: AWS profile name (optional)
 
         Returns:
@@ -373,6 +367,7 @@ class HyperPodStackHandler:
                     stack_name=stack_name,
                     template_params=template_params,
                     region_name=region_name,
+                    cluster_orchestrator=cluster_orchestrator,
                     profile_name=profile_name,
                 )
 
@@ -429,10 +424,26 @@ class HyperPodStackHandler:
         template_params: List[dict],
         stack_name: str,
         region_name: SUPPORTED_REGIONS,
+        cluster_orchestrator: CLUSTER_ORCHESTRATORS,
         profile_name: Optional[str] = None,
     ) -> 'DeployStackResponse':
         """Deploy a CloudFormation stack from the specified template file."""
         try:
+            # Determine template URL based on cluster orchestrator
+            if cluster_orchestrator == 'eks':
+                template_url = HYPERPOD_CFN_TEMPLATE_URL_EKS
+            elif cluster_orchestrator == 'slurm':
+                template_url = HYPERPOD_CFN_TEMPLATE_URL_SLURM
+            else:
+                # This should not happen due to type validation, but adding for safety
+                error_message = f'Invalid cluster_orchestrator: {cluster_orchestrator}. Must be either "eks" or "slurm".'
+                log_with_request_id(ctx, LogLevel.ERROR, error_message)
+                return DeployStackResponse(
+                    isError=True,
+                    content=[TextContent(type='text', text=error_message or 'Unknown error')],
+                    stack_name=stack_name,
+                    stack_arn='',
+                )
             # Create CloudFormation client
             cfn_client = AwsHelper.create_boto3_client('cloudformation', region_name=region_name)
 
@@ -466,9 +477,13 @@ class HyperPodStackHandler:
 
                 response = cfn_client.update_stack(
                     StackName=stack_name,
-                    TemplateURL=HYPERPOD_CFN_TEMPLATE_URL,
+                    TemplateURL=template_url,
                     Parameters=template_params,
-                    Capabilities=[CFN_CAPABILITY_IAM, CFN_CAPABILITY_NAMED_IAM],
+                    Capabilities=[
+                        CFN_CAPABILITY_IAM,
+                        CFN_CAPABILITY_NAMED_IAM,
+                        CAPABILITY_AUTO_EXPAND,
+                    ],
                     Tags=[{'Key': CFN_STACK_TAG_KEY, 'Value': CFN_STACK_TAG_VALUE}],
                 )
 
@@ -482,9 +497,13 @@ class HyperPodStackHandler:
 
                 response = cfn_client.create_stack(
                     StackName=stack_name,
-                    TemplateURL=HYPERPOD_CFN_TEMPLATE_URL,
+                    TemplateURL=template_url,
                     Parameters=template_params,
-                    Capabilities=[CFN_CAPABILITY_IAM, CFN_CAPABILITY_NAMED_IAM],
+                    Capabilities=[
+                        CFN_CAPABILITY_IAM,
+                        CFN_CAPABILITY_NAMED_IAM,
+                        CAPABILITY_AUTO_EXPAND,
+                    ],
                     OnFailure=CFN_ON_FAILURE_DELETE,
                     Tags=[{'Key': CFN_STACK_TAG_KEY, 'Value': CFN_STACK_TAG_VALUE}],
                 )

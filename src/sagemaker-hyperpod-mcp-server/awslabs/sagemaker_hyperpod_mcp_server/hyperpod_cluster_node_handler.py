@@ -639,6 +639,7 @@ class HyperPodClusterNodeHandler:
         Notes:
             - before using this tool, ensure you first have the most recent cluster instance group configurations by first calling the describe_hp_cluster tool first.
             - modify the instance group configuration based on user's request
+            - important: Use "InstanceCount" (NOT "CurrentCount" or "TargetCount") for desired target count
             - pass the configuration back in the instance group parameter
             - example instance groups parameter
             "instance_groups": [
