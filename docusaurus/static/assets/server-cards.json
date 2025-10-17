@@ -447,26 +447,6 @@
     },
     {
       "category": "AI & Machine Learning",
-      "description": "Analyze images using computer vision capabilities",
-      "icon": "\ud83e\udd16",
-      "id": "amazon-rekognition-mcp-server",
-      "name": "Amazon Rekognition MCP Server",
-      "source_path": "src/amazon-rekognition-mcp-server/",
-      "subcategory": "Content Processing & Generation",
-      "tags": [
-        "ai-ml",
-        "computer-vision",
-        "rekognition",
-        "image-analysis",
-        "conversational",
-        "content-processing"
-      ],
-      "workflows": [
-        "conversational"
-      ]
-    },
-    {
-      "category": "AI & Machine Learning",
       "description": "Analyze documents, images, videos, and audio files",
       "icon": "\ud83e\udd16",
       "id": "aws-bedrock-data-automation-mcp-server",
@@ -1314,6 +1294,30 @@
       ],
       "workflows": [
         "autonomous"
+      ]
+    },
+    {
+      "category": "AI & Machine Learning",
+      "description": "Allows you to build, deploy, and manage intelligent agents with advanced capabilities like memory, OAuth authentication, and gateway integrations",
+      "icon": "\ud83e\udd16",
+      "id": "amazon-bedrock-agentcore-mcp-server",
+      "name": "Amazon Bedrock AgentCore MCP Server",
+      "source_path": "src/amazon-bedrock-agentcore-mcp-server/",
+      "subcategory": "Knowledge & Search",
+      "tags": [
+        "ai-ml",
+        "bedrock",
+        "conversational",
+        "knowledge-search",
+        "agentcore",
+        "agents",
+        "ai-agents",
+        "agentic",
+        "runtime",
+        "mcp"
+      ],
+      "workflows": [
+        "conversational"
       ]
     },
     {
