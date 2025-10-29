@@ -15,8 +15,7 @@ Integrating the HyperPod MCP server into AI code assistants enhances development
 * [Install Python 3.10+](https://www.python.org/downloads/release/python-3100/)
 * [Install the `uv` package manager](https://docs.astral.sh/uv/getting-started/installation/)
 * [Install and configure the AWS CLI with credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
-* [Install Pre-commit.](https://pre-commit.com/)
-  - Pre-commit will run automatically before each commit. You can also run pre-commit manually on all files using `pre-commit run --all-files`. If any hook fails, the commit will be aborted, and you will need to fix the issues before committing again.
+
 ## Setup
 
 Add these IAM policies to the IAM role or user that you use to manage your HyperPod cluster resources.
@@ -78,17 +77,6 @@ For write operations, we recommend the following IAM policies to ensure successf
 
 This quickstart guide walks you through the steps to configure the Amazon SageMaker HyperPod MCP Server for use with the [Amazon Q Developer CLI](https://github.com/aws/amazon-q-developer-cli). By following these steps, you'll setup your development environment to leverage the HyperPod MCP Server's tools for managing your Amazon SageMaker HyperPod clusters and resources.
 
-**Set up Pre-Commit**
-1. `pip install pre-commit`
-2. `pre-commit install`
-3. pre-commit will run before commiting. Use `pre-commit run --all-files` to trigger pre-commit without commiting.
-
-
-**Set up Cursor**
-
-| VS Code |
-|:-------:|
-| [![Install on VS Code](https://img.shields.io/badge/Install_on-VS_Code-FF9900?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=HyperPod%20MCP%20Server&config=%7B%22autoApprove%22%3A%5B%5D%2C%22disabled%22%3Afalse%2C%22command%22%3A%22uvx%22%2C%22args%22%3A%5B%22awslabs.sagemaker-hyperpod-mcp-server%40latest%22%2C%22--allow-write%22%2C%22--allow-sensitive-data-access%22%5D%2C%22env%22%3A%7B%22FASTMCP_LOG_LEVEL%22%3A%22ERROR%22%7D%2C%22transportType%22%3A%22stdio%22%7D) |
 
 **Set up the Amazon Q Developer CLI**
 
