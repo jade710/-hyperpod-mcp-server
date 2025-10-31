@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tests for the awslabs.sagemaker-hyperpod-mcp-server package."""
+"""Tests for the awslabs.sagemaker-ai-mcp-server package."""
 
 import importlib
 import re
@@ -24,30 +24,30 @@ class TestInit:
     def test_version(self):
         """Test that __version__ is defined and follows semantic versioning."""
         # Import the module
-        import awslabs.sagemaker_hyperpod_mcp_server
+        import awslabs
 
         # Check that __version__ is defined
-        assert hasattr(awslabs.sagemaker_hyperpod_mcp_server, '__version__')
+        assert hasattr(awslabs, '__version__')
 
         # Check that __version__ is a string
-        assert isinstance(awslabs.sagemaker_hyperpod_mcp_server.__version__, str)
+        assert isinstance(awslabs.__version__, str)
 
         # Check that __version__ follows semantic versioning (major.minor.patch)
         version_pattern = r'^\d+\.\d+\.\d+$'
-        assert re.match(version_pattern, awslabs.sagemaker_hyperpod_mcp_server.__version__), (
-            f"Version '{awslabs.sagemaker_hyperpod_mcp_server.__version__}' does not follow semantic versioning"
+        assert re.match(version_pattern, awslabs.__version__), (
+            f"Version '{awslabs.__version__}' does not follow semantic versioning"
         )
 
     def test_module_reload(self):
         """Test that the module can be reloaded."""
         # Import the module
-        import awslabs.sagemaker_hyperpod_mcp_server
+        import awslabs
 
         # Store the original version
-        original_version = awslabs.sagemaker_hyperpod_mcp_server.__version__
+        original_version = awslabs.__version__
 
         # Reload the module
-        importlib.reload(awslabs.sagemaker_hyperpod_mcp_server)
+        importlib.reload(awslabs)
 
         # Check that the version is still the same
-        assert awslabs.sagemaker_hyperpod_mcp_server.__version__ == original_version
+        assert awslabs.__version__ == original_version

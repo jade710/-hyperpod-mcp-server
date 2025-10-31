@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""awslabs SageMaker HyperPod MCP Server implementation.
+"""awslabs SageMaker AI MCP Server implementation.
 
-This module implements the SageMaker HyperPod MCP Server, which provides tools for managing Amazon SageMaker HyperPod clusters
-and resources through the Model Context Protocol (MCP).
+This module implements the SageMaker AI MCP Server, which provides tools for managing Amazon SageMaker AI resources
+including HyperPod clusters and nodes through the Model Context Protocol (MCP).
 
 Environment Variables:
     AWS_REGION: AWS region to use for AWS API calls
@@ -36,9 +36,9 @@ from mcp.server.fastmcp import FastMCP
 
 # Define server instructions and dependencies
 SERVER_INSTRUCTIONS = """
-# Amazon SageMaker HyperPod MCP Server
+# Amazon SageMaker AI MCP Server
 
-This MCP server provides comprehensive tools for managing Amazon SageMaker HyperPod clusters and is the preferred mechanism for interacting with SageMaker HyperPod.
+This MCP server provides comprehensive tools for managing Amazon SageMaker AI resources, currently including HyperPod cluster management.
 
 ## IMPORTANT: Use MCP Tools for SageMaker HyperPod Operations
 
@@ -140,7 +140,7 @@ mcp = None
 def create_server():
     """Create and configure the MCP server instance."""
     return FastMCP(
-        'awslabs.sagemaker-hyperpod-mcp-server',
+        'awslabs.sagemaker-ai-mcp-server',
         instructions=SERVER_INSTRUCTIONS,
         dependencies=SERVER_DEPENDENCIES,
     )
@@ -155,7 +155,7 @@ def main():
     logger.add(sys.stderr, level=os.getenv('FASTMCP_LOG_LEVEL', 'WARNING'))
 
     parser = argparse.ArgumentParser(
-        description='An AWS Labs Model Context Protocol (MCP) server for SageMaker HyperPod'
+        description='An AWS Labs Model Context Protocol (MCP) server for SageMaker AI'
     )
     parser.add_argument(
         '--allow-write',
@@ -183,7 +183,7 @@ def main():
         mode_info.append('restricted sensitive data access mode')
 
     mode_str = ' in ' + ', '.join(mode_info) if mode_info else ''
-    logger.info(f'Starting HyperPod MCP Server{mode_str}')
+    logger.info(f'Starting SageMaker AI MCP Server{mode_str}')
 
     # Create the MCP server instance
     mcp = create_server()

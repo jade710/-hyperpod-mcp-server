@@ -15,7 +15,7 @@
 """Tests for the logging_helper module."""
 
 import pytest
-from awslabs.sagemaker_hyperpod_mcp_server.logging_helper import LogLevel, log_with_request_id
+from awslabs.logging_helper import LogLevel, log_with_request_id
 from mcp.server.fastmcp import Context
 from unittest.mock import MagicMock, patch
 
@@ -42,21 +42,21 @@ class TestLogWithRequestId:
         ctx.request_id = 'test-request-id'
         return ctx
 
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.logging_helper.logger')
+    @patch('awslabs.logging_helper.logger')
     def test_log_debug(self, mock_logger, mock_ctx):
         """Test that log_with_request_id logs at DEBUG level."""
         message = 'Test debug message'
         log_with_request_id(mock_ctx, LogLevel.DEBUG, message)
         mock_logger.debug.assert_called_once_with(f'[request_id={mock_ctx.request_id}] {message}')
 
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.logging_helper.logger')
+    @patch('awslabs.logging_helper.logger')
     def test_log_info(self, mock_logger, mock_ctx):
         """Test that log_with_request_id logs at INFO level."""
         message = 'Test info message'
         log_with_request_id(mock_ctx, LogLevel.INFO, message)
         mock_logger.info.assert_called_once_with(f'[request_id={mock_ctx.request_id}] {message}')
 
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.logging_helper.logger')
+    @patch('awslabs.logging_helper.logger')
     def test_log_warning(self, mock_logger, mock_ctx):
         """Test that log_with_request_id logs at WARNING level."""
         message = 'Test warning message'
@@ -65,14 +65,14 @@ class TestLogWithRequestId:
             f'[request_id={mock_ctx.request_id}] {message}'
         )
 
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.logging_helper.logger')
+    @patch('awslabs.logging_helper.logger')
     def test_log_error(self, mock_logger, mock_ctx):
         """Test that log_with_request_id logs at ERROR level."""
         message = 'Test error message'
         log_with_request_id(mock_ctx, LogLevel.ERROR, message)
         mock_logger.error.assert_called_once_with(f'[request_id={mock_ctx.request_id}] {message}')
 
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.logging_helper.logger')
+    @patch('awslabs.logging_helper.logger')
     def test_log_critical(self, mock_logger, mock_ctx):
         """Test that log_with_request_id logs at CRITICAL level."""
         message = 'Test critical message'
@@ -81,7 +81,7 @@ class TestLogWithRequestId:
             f'[request_id={mock_ctx.request_id}] {message}'
         )
 
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.logging_helper.logger')
+    @patch('awslabs.logging_helper.logger')
     def test_log_with_additional_kwargs(self, mock_logger, mock_ctx):
         """Test that log_with_request_id passes additional kwargs to the logger."""
         message = 'Test message with kwargs'

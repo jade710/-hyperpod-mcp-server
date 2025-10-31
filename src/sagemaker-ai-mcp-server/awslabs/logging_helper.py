@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Logging helper for the HyperPod MCP Server."""
+"""Logging helper for the SageMaker AI MCP Server."""
 
 from enum import Enum
 from loguru import logger

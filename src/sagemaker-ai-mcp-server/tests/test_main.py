@@ -22,17 +22,17 @@ from unittest.mock import ANY, MagicMock, patch
 # Mock modules that might not be installed
 sys.modules['requests_auth_aws_sigv4'] = MagicMock()
 sys.modules['requests'] = MagicMock()
-from awslabs.sagemaker_hyperpod_mcp_server.server import create_server, main
+from awslabs.server import create_server, main
 
 
 class TestMain:
     """Tests for the main function."""
 
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodClusterNodeHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.create_server')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.logger')
-    @patch('sys.argv', ['awslabs.sagemaker-hyperpod-mcp-server'])
+    @patch('awslabs.server.HyperPodClusterNodeHandler')
+    @patch('awslabs.server.HyperPodStackHandler')
+    @patch('awslabs.server.create_server')
+    @patch('awslabs.server.logger')
+    @patch('sys.argv', ['awslabs.sagemaker-ai-mcp-server'])
     def test_main_default(
         self,
         mock_logger,
@@ -60,17 +60,17 @@ class TestMain:
 
         # Check that the correct log message was output
         mock_logger.info.assert_called_once_with(
-            'Starting HyperPod MCP Server in read-only mode, restricted sensitive data access mode'
+            'Starting SageMaker AI MCP Server in read-only mode, restricted sensitive data access mode'
         )
 
         # Check that the function returns the MCP instance
         assert result == mock_mcp
 
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodClusterNodeHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.create_server')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.logger')
-    @patch('sys.argv', ['awslabs.sagemaker-hyperpod-mcp-server', '--allow-write'])
+    @patch('awslabs.server.HyperPodClusterNodeHandler')
+    @patch('awslabs.server.HyperPodStackHandler')
+    @patch('awslabs.server.create_server')
+    @patch('awslabs.server.logger')
+    @patch('sys.argv', ['awslabs.sagemaker-ai-mcp-server', '--allow-write'])
     def test_main_with_write_access(
         self,
         mock_logger,
@@ -105,17 +105,17 @@ class TestMain:
 
         # Check that the correct log message was output
         mock_logger.info.assert_called_once_with(
-            'Starting HyperPod MCP Server in restricted sensitive data access mode'
+            'Starting SageMaker AI MCP Server in restricted sensitive data access mode'
         )
 
         # Check that the function returns the MCP instance
         assert result == mock_mcp
 
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodClusterNodeHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.create_server')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.logger')
-    @patch('sys.argv', ['awslabs.sagemaker-hyperpod-mcp-server', '--allow-sensitive-data-access'])
+    @patch('awslabs.server.HyperPodClusterNodeHandler')
+    @patch('awslabs.server.HyperPodStackHandler')
+    @patch('awslabs.server.create_server')
+    @patch('awslabs.server.logger')
+    @patch('sys.argv', ['awslabs.sagemaker-ai-mcp-server', '--allow-sensitive-data-access'])
     def test_main_with_sensitive_data_access(
         self,
         mock_logger,
@@ -149,19 +149,19 @@ class TestMain:
         mock_mcp.run.assert_called_once()
 
         # Check that the correct log message was output
-        mock_logger.info.assert_called_once_with('Starting HyperPod MCP Server in read-only mode')
+        mock_logger.info.assert_called_once_with('Starting SageMaker AI MCP Server in read-only mode')
 
         # Check that the function returns the MCP instance
         assert result == mock_mcp
 
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodClusterNodeHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.create_server')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.logger')
+    @patch('awslabs.server.HyperPodClusterNodeHandler')
+    @patch('awslabs.server.HyperPodStackHandler')
+    @patch('awslabs.server.create_server')
+    @patch('awslabs.server.logger')
     @patch(
         'sys.argv',
         [
-            'awslabs.sagemaker-hyperpod-mcp-server',
+            'awslabs.sagemaker-ai-mcp-server',
             '--allow-write',
             '--allow-sensitive-data-access',
         ],
@@ -199,20 +199,20 @@ class TestMain:
         mock_mcp.run.assert_called_once()
 
         # Check that the correct log message was output
-        mock_logger.info.assert_called_once_with('Starting HyperPod MCP Server')
+        mock_logger.info.assert_called_once_with('Starting SageMaker AI MCP Server')
 
         # Check that the function returns the MCP instance
         assert result == mock_mcp
 
     def test_create_server(self):
         """Test the create_server function."""
-        with patch('awslabs.sagemaker_hyperpod_mcp_server.server.FastMCP') as mock_fastmcp:
+        with patch('awslabs.server.FastMCP') as mock_fastmcp:
             # Call the create_server function
             create_server()
 
             # Check that FastMCP was called with the correct arguments
             mock_fastmcp.assert_called_once_with(
-                'awslabs.sagemaker-hyperpod-mcp-server',
+                'awslabs.sagemaker-ai-mcp-server',
                 instructions=ANY,
                 dependencies=ANY,
             )
@@ -224,7 +224,7 @@ class TestMain:
 
         # Get the source code of the module
         import inspect
-        from awslabs.sagemaker_hyperpod_mcp_server import server
+        from awslabs import server
 
         # Get the source code
         source = inspect.getsource(server)
