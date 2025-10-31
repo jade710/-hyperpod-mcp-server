@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""HyperPod stack handler for the HyperPod MCP Server."""
+"""HyperPod stack handler for the SageMaker AI MCP Server."""
 
 import json
 import yaml  # type: ignore
-from awslabs.sagemaker_hyperpod_mcp_server.aws_helper import AwsHelper
-from awslabs.sagemaker_hyperpod_mcp_server.consts import (
+from awslabs.aws_helper import AwsHelper
+from awslabs.consts import (
     CAPABILITY_AUTO_EXPAND,
     CFN_CAPABILITY_IAM,
     CFN_CAPABILITY_NAMED_IAM,
@@ -34,7 +34,7 @@ from awslabs.sagemaker_hyperpod_mcp_server.consts import (
     STACK_OPERATIONS,
     SUPPORTED_REGIONS,
 )
-from awslabs.sagemaker_hyperpod_mcp_server.logging_helper import LogLevel, log_with_request_id
+from awslabs.logging_helper import LogLevel, log_with_request_id
 from awslabs.sagemaker_hyperpod_mcp_server.models import (
     DeleteStackResponse,
     DeployStackResponse,

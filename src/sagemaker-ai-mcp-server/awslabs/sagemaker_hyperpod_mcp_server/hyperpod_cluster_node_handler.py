@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""HyperPod cluster node handler for the HyperPod MCP Server."""
+"""HyperPod cluster node handler for the SageMaker AI MCP Server."""
 
 import os
-from awslabs.sagemaker_hyperpod_mcp_server.aws_helper import AwsHelper
-from awslabs.sagemaker_hyperpod_mcp_server.consts import (
+from awslabs.aws_helper import AwsHelper
+from awslabs.consts import (
     BATCH_DELETE_OPERATION,
     DESCRIBE_NODE_OPERATION,
     LIST_CLUSTERS_OPERATION,
@@ -25,7 +25,7 @@ from awslabs.sagemaker_hyperpod_mcp_server.consts import (
     SUPPORTED_REGIONS,
     UPDATE_SOFTWARE_OPERATION,
 )
-from awslabs.sagemaker_hyperpod_mcp_server.logging_helper import LogLevel, log_with_request_id
+from awslabs.logging_helper import LogLevel, log_with_request_id
 from awslabs.sagemaker_hyperpod_mcp_server.models import (
     BatchDeleteClusterNodesError,
     BatchDeleteClusterNodesResponse,
@@ -52,7 +52,7 @@ from typing import Any, List, Literal, Optional, Union
 
 
 class HyperPodClusterNodeHandler:
-    """Handler for HyperPod cluster node operations in the HyperPod MCP Server.
+    """Handler for HyperPod cluster node operations in the SageMaker AI MCP Server.
 
     This class provides tools for interacting with SageMaker HyperPod cluster nodes.
     """

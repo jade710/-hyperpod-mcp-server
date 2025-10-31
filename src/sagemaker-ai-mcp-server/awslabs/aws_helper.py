@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""AWS helper for the HyperPod MCP Server."""
+"""AWS helper for the SageMaker AI MCP Server."""
 
 import boto3
 import os
 import time
-from awslabs.sagemaker_hyperpod_mcp_server.consts import SUPPORTED_REGIONS
+from awslabs.consts import SUPPORTED_REGIONS
 from botocore.config import Config
 from loguru import logger
 from pydantic import validate_call
@@ -68,8 +68,8 @@ class AwsHelper:
     ) -> Any:
         """Create or retrieve a cached boto3 client with the appropriate profile and region.
 
-        The client is configured with a custom user agent suffix 'awslabs/mcp/sagemaker-hyperpod-mcp-server/{version}'
-        to identify API calls made by the HyperPod MCP Server. Clients are cached to improve performance
+        The client is configured with a custom user agent suffix 'awslabs/mcp/sagemaker-ai-mcp-server/{version}'
+        to identify API calls made by the SageMaker AI MCP Server. Clients are cached to improve performance
         and reduce resource usage.
 
         Args:
@@ -118,7 +118,7 @@ class AwsHelper:
 
             # Create config with user agent suffix
             config = Config(
-                user_agent_extra=f'awslabs/mcp/sagemaker-hyperpod-mcp-server/{__version__}'
+                user_agent_extra=f'awslabs/mcp/sagemaker-ai-mcp-server/{__version__}'
             )
 
             # Create session with profile if specified
