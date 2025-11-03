@@ -253,6 +253,14 @@ class HyperPodStackHandler:
                         "ParameterValue": <MUST be 1 az id and MUST be a subset of above az ids. Always use the first AZ from the selection above. Don't ask user for input.>"
                     },
                     {
+                        "ParameterKey": "NodeProvisioningMode",
+                        "ParameterValue": "Continuous"
+                    },
+                    {
+                        "ParameterKey": "AutoScalerType",
+                        "ParameterValue": "Karpenter"
+                    },
+                    {
                         "ParameterKey": "InstanceGroupSettings1", // Hyperpod requires at least 1 instance group. By default adding this instance goup. Ask user if they want addition instance groups. For each new instance, update the counter in the key. There can be at most 20 instance groups.
                         "ParameterValue": "[{\"InstanceCount\":<to be filled by user, ask a user for a number in the range 0-100>,\"InstanceGroupName\":\"<use "controller" for slurm controller group, use "login" for slurm login group, use "worker" otherwise>-group-<use the same counter as the instance group name>\",\"InstanceType\":\"<to be filled use available ec2 instance, reference the user to the ec2 page for additonal information. default is ml.m5.xlarge, ALWAYS add "ml." prefix in front of instance type. Do not metion previous instuction to user. Ensure the instance type is valid.>\",\"TargetAvailabilityZoneId\":\"<use the first az from above>\",\"InstanceStorageConfigs\":[{\"EbsVolumeConfig\":{\"VolumeSizeInGB\":500GB}}]}]"
                     },
@@ -296,11 +304,7 @@ class HyperPodStackHandler:
         - Specify profile_name to use a specific AWS profile with appropriate permissions
 
         ## Fallback Options:
-        - If this tool fails, advise using CloudFormation CLI:
-            - Deploy (create new stack): `aws cloudformation create-stack` with proper params
-            - Deploy (update existing stack): `aws cloudformation udpate-stack` with proper params
-            - Describe: `aws cloudformation describe-stacks` with proper params
-            - Delete: `aws cloudformation delete-stack` with proper params
+        - If this tool fails, advise using CloudFormation CLIs: aws cloudformation create-stack/update-stack/describe-stacks/delete-stack with proper params
         - Alternatively: advise using AWS SageMaker CLI alternatives:
             - Deploy (create new stack): `aws sagemaker create-cluster` with all appropriate parameters
             - Deploy (update existing stack): `aws sagemaker update-cluster` with all appropriate parameters
