@@ -198,7 +198,7 @@ class HyperPodClusterNodeHandler:
         - **list_clusters**: List SageMaker HyperPod clusters with options for pagination and filtering
         - **list_nodes**: List nodes in a SageMaker HyperPod cluster with options for pagination and filtering
         - **describe_node**: Get detailed information about a specific node in a SageMaker HyperPod cluster
-        - **update_software**: Update the software for a SageMaker HyperPod cluster
+        - **update_software**: Update the software for a SageMaker HyperPod cluster IMMEDIATELY
         - **batch_delete**: Delete multiple nodes from a SageMaker HyperPod cluster in a single operation
 
         ## Response Information
@@ -211,7 +211,7 @@ class HyperPodClusterNodeHandler:
 
         ## Important Notes
         - ALWAYS show the important notes for operations batch_delete and update_software BEFORE execute the operations
-        - For update_software:
+        - For update_software: (BEFORE executing: ALWAYS ask user whether they want to update immediately or schedule for later; follow "update_hp_cluster" tool instructions for scheduled updates)
             The UpgradeClusterSoftware API call may impact your SageMaker HyperPod cluster uptime and availability. Plan accordingly to mitigate potential disruptions to your workloads
         - For batch_delete:
             - BEFORE running the tool, ALWAYS remind user all followings
@@ -232,7 +232,7 @@ class HyperPodClusterNodeHandler:
         - Use "list_clusters" operation to get an overview of all available clusters in a specified region
         - Use "list_nodes" operation to get an overview of all nodes in a specific cluster
         - Use "describe_node" operation to get detailed information about a specific node
-        - Use "update_software" operation to update the software on all nodes or specific instance groups
+        - Use "update_software" operation to update the software IMMEDIATELY on all nodes or specific instance groups
         - Use "batch_delete" operation to delete multiple nodes in a single request
         - Specify region_name to operate on a cluster in a specific region
         - Specify profile_name to use a specific AWS profile with appropriate permissions
@@ -641,6 +641,11 @@ class HyperPodClusterNodeHandler:
             - modify the instance group configuration based on user's request
             - important: Use "InstanceCount" (NOT "CurrentCount" or "TargetCount") for desired target count
             - pass the configuration back in the instance group parameter
+            - IMPORTANT: if user wants to do scheduled updates for their cluster nodes/AMI, also add the ScheduledUpdateConfig configs for the instance group they specified; the scheduled update time can be one-time or recurring based on user provided valid cron experssion;Times are in the UTC-00:00 time zone.
+             - example cron expressions for parameter ScheduleExpression - cron(Minutes Hours Day-of-month Month Day-of-week Year)
+              - one-time update on December 25, 2025 at 2:00 AM UTC: cron(0 2 25 12 ? 2025)
+              - First day of every month at midnight UTC: cron(0 0 1 * ? *)
+              - Every Saturday at 4:30 AM UTC: cron(30 4 ? * SAT *)
             - example instance groups parameter
             "instance_groups": [
         ⋮        {
@@ -1137,7 +1142,9 @@ class HyperPodClusterNodeHandler:
         """Update the software for a SageMaker HyperPod cluster.
 
         This tool updates the software for a SageMaker HyperPod cluster.
-        It initiates a software update for all nodes in the cluster.
+        It initiates a software update for all nodes in the cluster IMMEDIATELY.
+
+        Important: first confirm if user wants to update the software NOW or in the future; if they want to do scheduled (one-time or recurring) for their cluster nodes/AMI, guide them to use update_hp_cluster tool with specifying the ScheduledUpdateConfig and ScheduleExpression.
 
         ## Response Information
         The response includes the ARN of the cluster being updated.
