@@ -146,6 +146,20 @@ class DeploymentConfiguration(BaseModel):
     rolling_update_policy: Optional[RollingDeploymentPolicy] = None
     wait_interval_in_seconds: Optional[int] = None
 
+class ScheduledUpdateConfig(BaseModel):
+    """The configuration object of the schedule that SageMaker follows when updating the AMI..
+
+    See: https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ScheduledUpdateConfig.html
+    """
+
+    schedule_expression: str = Field(
+        ...,
+        description='A cron expression that specifies the schedule that SageMaker follows when updating the AMI.',
+        min_length=1,
+        max_length=256
+    )
+    deployment_config: Optional[DeploymentConfiguration] = None
+
 
 class UpdateClusterSoftwareInstanceGroupSpecification(BaseModel):
     """Specification for an instance group to update in a SageMaker HyperPod cluster.

@@ -220,12 +220,8 @@ class HyperPodStackHandler:
             IMPORTANT: ALWAYS ask one question at a time.
 
             For 'deploy' operation:
-                - region_name: REQUIRED: ask user to region of deployment. Limit user input to the major US region. Ensure this argument matches the AvailabilityZoneIds parameter key.
-                    - allow following selections:
-                        • us-east-1 (N. Virginia)
-                        • us-east-2 (Ohio)
-                        • us-west-1 (N. California)
-                        • us-west-2 (Oregon)
+                - region_name: REQUIRED: ask user to region of deployment. Ensure this argument matches the AvailabilityZoneIds parameter key.
+                    - available regions: us-east-1,us-east-2,us-west-1,us-west-2,eu-central-1,eu-north-1,eu-west-1,eu-west-2,eu-south-2,ap-south-1,ap-southeast-1,ap-southeast-2,ap-southeast-3,ap-southeast-4,ap-northeast-1,sa-east-1
                 - stack_name: REQUIRED - generate a stack name and present to the user. should be in this format: "<HyperPodClusterName>-stack".
                 - cluster_orchestrator: REQUIRED: ask user to specify "eks" or "slurm"
                 - params_file: REQUIRED - the parameters file should follow the below format. Ask the user to customize the parameters marked as "<to be filled out by user>" one by one. At the end, ask user if they want to add additional instance group.
@@ -271,7 +267,7 @@ class HyperPodStackHandler:
                     ...
                 ]
 
-                    - available AZ id in each region
+                    - available AZ id in example regions
                         - us-east-1: use1-az1, az2, az4, az5, az6
                         - us-east-2: use2-az1, az2, az3
                         - us-west-1: usw1-az1, az3
