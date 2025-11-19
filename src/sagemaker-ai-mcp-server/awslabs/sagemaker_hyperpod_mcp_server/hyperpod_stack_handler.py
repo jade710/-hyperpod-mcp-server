@@ -223,10 +223,11 @@ class HyperPodStackHandler:
                 - region_name: REQUIRED: ask user to region of deployment. Ensure this argument matches the AvailabilityZoneIds parameter key.
                     - available regions: us-east-1,us-east-2,us-west-1,us-west-2,eu-central-1,eu-north-1,eu-west-1,eu-west-2,eu-south-2,ap-south-1,ap-southeast-1,ap-southeast-2,ap-southeast-3,ap-southeast-4,ap-northeast-1,sa-east-1
                 - stack_name: REQUIRED - generate a stack name and present to the user. should be in this format: "<HyperPodClusterName>-stack".
-                - cluster_orchestrator: REQUIRED: ask user to specify "eks" or "slurm"
+                - cluster_orchestrator: REQUIRED: ask user to specify "eks" or "slurm"; ONLY eks has NodeProvisioningMode and AutoScalerType, remove for slurm
                 - params_file: REQUIRED - the parameters file should follow the below format. Ask the user to customize the parameters marked as "<to be filled out by user>" one by one. At the end, ask user if they want to add additional instance group.
-                    - when cluster_orchestrator is "slurm", InstanceGroupSettings ParameterValue should also include InstanceGroupType of value Compute or Controller or Login; place it right after InstanceType. At least 1 Controller and 1 Compute node group required. ONLY 1 Controller, 1 Login group is allowed throughout ALL specified InstanceGroupSettings
+                    - when cluster_orchestrator is "slurm", InstanceGroupSettings ParameterValue should also include InstanceGroupType of value Compute or Controller or Login; place it right after InstanceType. At least 1 Controller and 1 Compute node group required. ONLY 1 Controller, 1 Login group is allowed throughout ALL specified InstanceGroupSettings; Controller can ONLY have 1 instance
                     - when asking questions regarding InstanceGroupSettings, ask user for both the number of instance and type of instance at the same time. Naming format: "<HyperPodClusterName>-params.json"
+                    - ALWAYS ask user: AutoScalerType is OPTIONAL and preferred if user wants need dynamic infrastructure scaling for variable workloads without manual intervention; remove it if user doesn't want it
                 [
                     {
                         "ParameterKey": "HyperPodClusterName",
@@ -269,8 +270,6 @@ class HyperPodStackHandler:
 
                     - available AZ id in example regions
                         - us-east-1: use1-az1, az2, az4, az5, az6
-                        - us-east-2: use2-az1, az2, az3
-                        - us-west-1: usw1-az1, az3
                         - us-west-2: usw2-az1, az2, az3, az4
 
             For 'describe' and 'delete' operations:
@@ -301,11 +300,7 @@ class HyperPodStackHandler:
 
         ## Fallback Options:
         - If this tool fails, advise using CloudFormation CLIs: aws cloudformation create-stack/update-stack/describe-stacks/delete-stack with proper params
-        - Alternatively: advise using AWS SageMaker CLI alternatives:
-            - Deploy (create new stack): `aws sagemaker create-cluster` with all appropriate parameters
-            - Deploy (update existing stack): `aws sagemaker update-cluster` with all appropriate parameters
-            - Describe: `aws sagemaker describe-cluster --cluster-name <name> --region <cluster_region>`
-            - Delete: `aws sagemaker delete-cluster --cluster-name <name> --region <cluster_region>`
+        - Alternatively: advise using AWS SageMaker CLIs: aws sagemaker with all appropriate parameters:
         - Alternatively: Advise using SageMaker HyperPod console for directly creating, updating, deleting the HyperPod cluster
 
         Args:
