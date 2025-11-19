@@ -46,6 +46,7 @@ dependencies = [
     "awslabs-postgres-mcp-server>=1.0.4",
     "awslabs-prometheus-mcp-server>=0.2.2",
     "awslabs-redshift-mcp-server>=0.0.3",
+    "awslabs-sagemaker-ai-mcp-server>=0.0.0",
     "awslabs-s3-tables-mcp-server>=0.0.6",
     "awslabs-stepfunctions-tool-mcp-server>=0.1.9",
     "awslabs-syntheticdata-mcp-server>=1.0.3",

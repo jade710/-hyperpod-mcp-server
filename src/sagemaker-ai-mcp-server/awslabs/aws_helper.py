@@ -18,14 +18,11 @@ import boto3
 import os
 import time
 from awslabs.consts import SUPPORTED_REGIONS
+from awslabs.sagemaker_hyperpod_mcp_server import __version__
 from botocore.config import Config
 from loguru import logger
 from pydantic import validate_call
 from typing import Any, Dict, Optional, cast, get_args
-
-
-# TODO: Import version from package
-__version__ = '0.1.0'
 
 
 class AwsHelper:
@@ -117,9 +114,7 @@ class AwsHelper:
                     del cls._client_cache[cache_key]
 
             # Create config with user agent suffix
-            config = Config(
-                user_agent_extra=f'awslabs/mcp/sagemaker-ai-mcp-server/{__version__}'
-            )
+            config = Config(user_agent_extra=f'awslabs/mcp/sagemaker-ai-mcp-server/{__version__}')
 
             # Create session with profile if specified
             if profile:

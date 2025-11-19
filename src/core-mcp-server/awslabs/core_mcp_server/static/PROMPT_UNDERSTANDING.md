@@ -104,6 +104,9 @@ When a user presents a query, follow these steps to break it down:
 - **Amazon Bedrock Data Automation MCP Server**
   - Use `awslabs.aws-bedrock-data-automation-mcp-server` to analyze documents, images, videos, and audio files
 
+- **Amazon SageMaker AI MCP Server**
+  - Use `awslabs.sagemaker-ai-mcp-server` for SageMaker AI resource management and application deployment
+
 #### Data & Analytics
 
 ##### SQL & NoSQL Databases
@@ -263,6 +266,7 @@ Map user requirements to these AWS categories and their corresponding MCP server
 - Bedrock (foundation models) → `awslabs.aws-api-mcp-server`
 - Bedrock Knowledge Base (knowledge base) → `awslabs.bedrock-kb-retrieval-mcp-server`
 - SageMaker (custom ML models) → `awslabs.aws-api-mcp-server`
+- SageMaker AI (ML training clusters) → `awslabs.sagemaker-ai-mcp-server`
 - Bedrock Data Automation (IDP) → `awslabs.aws-bedrock-data-automation-mcp-server`
 - Comprehend (natural language processing) → `awslabs.aws-api-mcp-server`
 - Transcribe (speech-to-text) → `awslabs.aws-api-mcp-server`
@@ -383,7 +387,7 @@ The Core MCP Server can dynamically import other MCP servers based on role-based
 - **aws-foundation**: AWS knowledge and API servers
 - **dev-tools**: Git repo research and code documentation tools
 - **ci-cd-devops**: CDK and CloudFormation servers
-- **container-orchestration**: EKS, ECS, and Finch servers
+- **container-orchestration**: EKS, ECS, Finch, and SageMaker AI servers
 - **serverless-architecture**: Serverless, Lambda, Step Functions, and SNS/SQS servers
 - **analytics-warehouse**: Redshift, Timestream, and data processing servers
 - **data-platform-eng**: DynamoDB, S3 Tables, and data processing servers

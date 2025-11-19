@@ -149,7 +149,9 @@ class TestMain:
         mock_mcp.run.assert_called_once()
 
         # Check that the correct log message was output
-        mock_logger.info.assert_called_once_with('Starting SageMaker AI MCP Server in read-only mode')
+        mock_logger.info.assert_called_once_with(
+            'Starting SageMaker AI MCP Server in read-only mode'
+        )
 
         # Check that the function returns the MCP instance
         assert result == mock_mcp

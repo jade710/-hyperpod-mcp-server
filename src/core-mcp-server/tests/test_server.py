@@ -65,6 +65,7 @@ mock_modules = {
     'awslabs.postgres_mcp_server.server': MagicMock(),
     'awslabs.prometheus_mcp_server.server': MagicMock(),
     'awslabs.redshift_mcp_server.server': MagicMock(),
+    'awslabs.sagemaker_ai_mcp_server.server': MagicMock(),
     'awslabs.s3_tables_mcp_server.server': MagicMock(),
     'awslabs.stepfunctions_tool_mcp_server.server': MagicMock(),
     'awslabs.syntheticdata_mcp_server.server': MagicMock(),
@@ -157,7 +158,7 @@ class TestSetup:
             ('aws-foundation', ['aws_knowledge', 'aws_api']),
             ('dev-tools', ['git_repo_research', 'code_doc_gen', 'aws_knowledge']),
             ('ci-cd-devops', ['cdk', 'cfn']),
-            ('container-orchestration', ['eks', 'ecs', 'finch']),
+            ('container-orchestration', ['eks', 'ecs', 'finch', 'sagemaker_ai']),
             (
                 'serverless-architecture',
                 ['serverless', 'lambda_tool', 'stepfunctions_tool', 'sns_sqs'],

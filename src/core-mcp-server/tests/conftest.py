@@ -121,6 +121,7 @@ mock_modules = {
     'awslabs.postgres_mcp_server.server': MagicMock(mcp=MagicMock()),
     'awslabs.prometheus_mcp_server.server': MagicMock(mcp=MagicMock()),
     'awslabs.redshift_mcp_server.server': MagicMock(mcp=MagicMock()),
+    'awslabs.sagemaker_ai_mcp_server.server': MagicMock(mcp=MagicMock()),
     'awslabs.s3_tables_mcp_server.server': MagicMock(app=MagicMock()),
     'awslabs.stepfunctions_tool_mcp_server.server': MagicMock(mcp=MagicMock()),
     'awslabs.syntheticdata_mcp_server.server': MagicMock(mcp=MagicMock()),
