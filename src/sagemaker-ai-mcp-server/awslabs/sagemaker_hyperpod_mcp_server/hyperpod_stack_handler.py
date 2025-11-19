@@ -214,6 +214,7 @@ class HyperPodStackHandler:
         - DO NOT create HyperPod clusters by generating CloudFormation templates from scratch.
         - when user asks to create a hyperpod cluster, NEVER ask to check what HyperPod clusters the user currently have
         - CRITICAL: when user asks to delete a hyperpod cluster, NEVER ask how user's hyperpod cluster was created, just proceed with 'delete' operation. The corresponding Cloudformation stack name should be in this format: "<HyperPodClusterName>-stack". If no such stack exists, then the hyperpod cluster might not be created via the MCP tools here.
+          - ALWAYS confirm with user if they do intend to delete the cluster because it cannot be recovered once deleted.
 
         ## Parameter Collection Process
             IMPORTANT: ALWAYS first ask for ALL operation-specific REQUIRED parameters from the user BEFORE making any tool calls. NEVER assume or generate parameter values.
@@ -225,7 +226,7 @@ class HyperPodStackHandler:
                 - stack_name: REQUIRED - generate a stack name and present to the user. should be in this format: "<HyperPodClusterName>-stack".
                 - cluster_orchestrator: REQUIRED: ask user to specify "eks" or "slurm"; ONLY eks has NodeProvisioningMode and AutoScalerType, remove for slurm
                 - params_file: REQUIRED - the parameters file should follow the below format. Ask the user to customize the parameters marked as "<to be filled out by user>" one by one. At the end, ask user if they want to add additional instance group.
-                    - when cluster_orchestrator is "slurm", InstanceGroupSettings ParameterValue should also include InstanceGroupType of value Compute or Controller or Login; place it right after InstanceType. At least 1 Controller and 1 Compute node group required. ONLY 1 Controller, 1 Login group is allowed throughout ALL specified InstanceGroupSettings; Controller can ONLY have 1 instance
+                    - when cluster_orchestrator is "slurm", InstanceGroupSettings ParameterValue should also include InstanceGroupType of value Compute or Controller or Login; place it right after InstanceType. At least 1 Controller and 1 Compute node group required. ONLY 1 Controller, 1 Login group is allowed throughout ALL specified InstanceGroupSettings; Controller can only have 1 instance, ONLY ask user controller instance type
                     - when asking questions regarding InstanceGroupSettings, ask user for both the number of instance and type of instance at the same time. Naming format: "<HyperPodClusterName>-params.json"
                     - ALWAYS ask user: AutoScalerType is OPTIONAL and preferred if user wants need dynamic infrastructure scaling for variable workloads without manual intervention; remove it if user doesn't want it
                 [
