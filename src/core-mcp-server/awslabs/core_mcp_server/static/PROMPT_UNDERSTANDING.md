@@ -105,7 +105,7 @@ When a user presents a query, follow these steps to break it down:
   - Use `awslabs.aws-bedrock-data-automation-mcp-server` to analyze documents, images, videos, and audio files
 
 - **Amazon SageMaker AI MCP Server**
-  - Use `awslabs.sagemaker-ai-mcp-server` for SageMaker AI resource management and application deployment
+  - Use `awslabs.sagemaker-ai-mcp-server` for SageMaker AI resource management and model development
 
 #### Data & Analytics
 
