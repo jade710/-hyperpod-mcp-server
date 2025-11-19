@@ -259,6 +259,7 @@ async def setup():
         from awslabs.ecs_mcp_server.main import mcp as ecs_server
         from awslabs.eks_mcp_server.server import mcp as eks_server
         from awslabs.finch_mcp_server.server import mcp as finch_server
+        from awslabs.sagemaker_ai_mcp_server.server import mcp as sagemaker_ai_server
 
         logger.info('Enabling Container Orchestration servers')
         imported_servers = await call_import_server(
@@ -269,6 +270,9 @@ async def setup():
         )
         imported_servers = await call_import_server(
             finch_server, 'finch', 'finch_server', imported_servers
+        )
+        imported_servers = await call_import_server(
+            sagemaker_ai_server, 'sagemaker_ai', 'sagemaker_ai_server', imported_servers
         )
 
     # Serverless Architecture

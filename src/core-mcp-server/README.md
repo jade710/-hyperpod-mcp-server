@@ -23,7 +23,7 @@ You can enable specific roles by setting environment variables. Each role corres
 | `aws-foundation` | AWS knowledge and API servers | aws-knowledge-server, aws-api-server |
 | `dev-tools` | Development tools | git-repo-research-server, code-doc-gen-server, aws-knowledge-server |
 | `ci-cd-devops` | CI/CD and DevOps | cdk-server, cfn-server |
-| `container-orchestration` | Container management | eks-server, ecs-server, finch-server |
+| `container-orchestration` | Container management | eks-server, ecs-server, finch-server, sagemaker-ai-server |
 | `serverless-architecture` | Serverless development | serverless-server, lambda-tool-server, stepfunctions-tool-server, sns-sqs-server |
 | `analytics-warehouse` | Data analytics and warehousing | redshift-server, timestream-for-influxdb-server, dataprocessing-server, syntheticdata-server |
 | `data-platform-eng` | Data platform engineering | dynamodb-server, s3-tables-server, dataprocessing-server |

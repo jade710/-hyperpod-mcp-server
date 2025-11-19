@@ -146,6 +146,7 @@ class DeploymentConfiguration(BaseModel):
     rolling_update_policy: Optional[RollingDeploymentPolicy] = None
     wait_interval_in_seconds: Optional[int] = None
 
+
 class ScheduledUpdateConfig(BaseModel):
     """The configuration object of the schedule that SageMaker follows when updating the AMI..
 
@@ -156,7 +157,7 @@ class ScheduledUpdateConfig(BaseModel):
         ...,
         description='A cron expression that specifies the schedule that SageMaker follows when updating the AMI.',
         min_length=1,
-        max_length=256
+        max_length=256,
     )
     deployment_config: Optional[DeploymentConfiguration] = None
 
