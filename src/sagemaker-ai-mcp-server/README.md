@@ -137,15 +137,15 @@ The command format differs between operating systems:
 
 Enables write access mode, which allows mutating operations (e.g., create, update, delete resources).
 
-* Default: false (The server runs in read-only mode by default)
-* Example: Add `--allow-write` to the `args` list in your MCP server definition.
+* Default: true (The server runs in write mode by default)
+* Example: remove `--allow-write` from the `args` list in your MCP server definition to switch to readonly mode.
 
 #### `--allow-sensitive-data-access` (optional)
 
 Enables access to sensitive data such as logs, events, and resource details. This flag is required for tools that access potentially sensitive information.
 
-* Default: false (Access to sensitive data is restricted by default)
-* Example: Add `--allow-sensitive-data-access` to the `args` list in your MCP server definition.
+* Default: true (Access to sensitive data is allowed by default)
+* Example: remove `--allow-sensitive-data-access` from the `args` list in your MCP server definition to disable it.
 
 ### Environment variables
 
