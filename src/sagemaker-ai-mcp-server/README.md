@@ -1,14 +1,12 @@
 # Amazon SageMaker AI MCP Server
 
-The Amazon SageMaker AI MCP server provides AI code assistants with resource management tools and real-time visibility across AWS SageMaker AI services. This provides large language models (LLMs) with essential tooling and contextual awareness, enabling AI code assistants to assist with application development through tailored guidance — from initial setup workflows through ongoing management.
+The Amazon SageMaker AI MCP server provides agents with tools to enable high-performance, low-cost AI/ML model development. Currently, this server includes tools for managing SageMaker HyperPod clusters.
 
-Currently, the server includes tools for managing SageMaker HyperPod clusters and nodes.
+## Available Features
 
-## Available Services
+### SageMaker HyperPod
 
-### HyperPod
-
-Provides comprehensive tools for managing SageMaker HyperPod clusters, including cluster deployment, node management, and lifecycle operations. See the [HyperPod documentation](awslabs/sagemaker_hyperpod_mcp_server/README.md) for detailed information.
+Provides comprehensive tools for managing SageMaker HyperPod clusters orchestrated with Amazon EKS or Slurm, including cluster deployment, node management, and lifecycle operations. See the [HyperPod documentation](awslabs/sagemaker_hyperpod_mcp_server/README.md) for detailed information on the supported tools.
 
 ## Prerequisites
 
@@ -75,7 +73,7 @@ The example below includes both the `--allow-write` flag for mutating operations
 
 3. Verify your setup by running the `/tools` command in the Q Developer CLI to see the available SageMaker AI MCP tools.
 
-Note that this is a basic quickstart. You can enable additional capabilities, such as combining more MCP servers like the [AWS Documentation MCP Server](https://awslabs.github.io/mcp/servers/aws-documentation-mcp-server/) and the [AWS API MCP Server](https://awslabs.github.io/mcp/servers/aws-api-mcp-server) into a single MCP server definition. To view an example, see the [Installation and Setup](https://github.com/awslabs/mcp?tab=readme-ov-file#installation-and-setup) guide in AWS MCP Servers on GitHub. To view a real-world implementation with application code in context with an MCP server, see the [Server Developer](https://modelcontextprotocol.io/quickstart/server) guide in Anthropic documentation.
+Note that this is a basic quickstart. We recommend to use SageMaker AI MCP server  in conjunction with [AWS API MCP Server](https://awslabs.github.io/mcp/servers/aws-api-mcp-server), [AWS Knowledge MCP Server](https://awslabs.github.io/mcp/servers/aws-knowledge-mcp-server)/[AWS Documentation MCP Server](https://awslabs.github.io/mcp/servers/aws-documentation-mcp-server), and [AWS EKS MCP Server](https://awslabs.github.io/mcp/servers/eks-mcp-server) to gain complete coverage for all SageMaker APIs and effectively troubleshoot common issues.
 
 ## Configurations
 

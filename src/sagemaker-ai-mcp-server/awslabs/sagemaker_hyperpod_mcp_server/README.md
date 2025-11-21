@@ -1,12 +1,12 @@
 # Amazon SageMaker HyperPod Tools
 
-This module provides MCP tools for managing Amazon SageMaker HyperPod clusters and resources. HyperPod is Amazon SageMaker's purpose-built infrastructure for distributed training at scale.
+This module provides MCP tools for managing Amazon SageMaker HyperPod clusters and resources.
 
 ## Key Features
 
-* Enables users of AI code assistants to interact with HyperPod cluster deployment workflows, utilizing the same managed CloudFormation templates used by the HyperPod console UI for consistent and approved deployments.
+* Enables AI agents to reliably setup HyperPod clusters orchestrated by Amazon EKS or Slurm complete with pre-requisites, powered by CloudFormation templates that optimize networking, storage, and compute resources. Clusters created via this MCP server are fully optimized for high-performance distributed training and inference workloads, leveraging best practice architectures to maximize throughput and minimize latency at scale.
 * Provides the ability to interface with HyperPod cluster stacks and resources via managed CloudFormation templates and user-provided custom parameter values.
-* Supports full lifecycle management of HyperPod cluster nodes, enabling listing, describing, updating software, and deleting operations.
+* Supports full lifecycle management of HyperPod cluster nodes, enabling listing, describing, updating software i.e AMIs, and deleting operations.
 
 ## Prerequisites
 
