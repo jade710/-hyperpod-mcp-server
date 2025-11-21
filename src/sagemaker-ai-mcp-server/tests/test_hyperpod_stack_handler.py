@@ -17,8 +17,8 @@
 import json
 import pytest
 import yaml  # type: ignore
-from awslabs.aws_helper import AwsHelper
-from awslabs.consts import (
+from awslabs.sagemaker_hyperpod_mcp_server.aws_helper import AwsHelper
+from awslabs.sagemaker_hyperpod_mcp_server.consts import (
     CAPABILITY_AUTO_EXPAND,
     CFN_CAPABILITY_IAM,
     CFN_CAPABILITY_NAMED_IAM,

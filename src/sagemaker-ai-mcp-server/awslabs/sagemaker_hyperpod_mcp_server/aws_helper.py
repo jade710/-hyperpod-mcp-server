@@ -17,7 +17,7 @@
 import boto3
 import os
 import time
-from awslabs.consts import SUPPORTED_REGIONS
+from awslabs.sagemaker_hyperpod_mcp_server.consts import SUPPORTED_REGIONS
 from awslabs.sagemaker_hyperpod_mcp_server import __version__
 from botocore.config import Config
 from loguru import logger

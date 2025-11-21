@@ -16,7 +16,7 @@
 
 import os
 import pytest
-from awslabs.aws_helper import AwsHelper
+from awslabs.sagemaker_hyperpod_mcp_server.aws_helper import AwsHelper
 from awslabs.sagemaker_hyperpod_mcp_server.hyperpod_cluster_node_handler import (
     HyperPodClusterNodeHandler,
 )
