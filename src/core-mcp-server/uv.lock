@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.10"
 resolution-markers = [
     "python_full_version >= '3.13'",
@@ -636,7 +636,6 @@ dependencies = [
     { name = "awslabs-prometheus-mcp-server" },
     { name = "awslabs-redshift-mcp-server" },
     { name = "awslabs-s3-tables-mcp-server" },
-    { name = "awslabs-sagemaker-ai-mcp-server" },
     { name = "awslabs-stepfunctions-tool-mcp-server" },
     { name = "awslabs-syntheticdata-mcp-server" },
     { name = "awslabs-timestream-for-influxdb-mcp-server" },
@@ -704,7 +703,6 @@ requires-dist = [
     { name = "awslabs-prometheus-mcp-server", specifier = ">=0.2.2" },
     { name = "awslabs-redshift-mcp-server", specifier = ">=0.0.3" },
     { name = "awslabs-s3-tables-mcp-server", specifier = ">=0.0.6" },
-    { name = "awslabs-sagemaker-ai-mcp-server", specifier = ">=0.0.0" },
     { name = "awslabs-stepfunctions-tool-mcp-server", specifier = ">=0.1.9" },
     { name = "awslabs-syntheticdata-mcp-server", specifier = ">=1.0.3" },
     { name = "awslabs-timestream-for-influxdb-mcp-server", specifier = ">=0.0.2" },
@@ -1067,15 +1065,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ee/68/390722024919aaf3627f20ad7a89d7c36cf93156467a4743db6ac8eb2b99/awslabs_s3_tables_mcp_server-0.0.6.tar.gz", hash = "sha256:f0972c2744d43e1cf918b4dd264b52d04da4cb1706055fb9306f4b5789319da3", size = 130385, upload-time = "2025-07-31T23:26:27.091Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/97/2f/e673b1f3400aa007044c0f4dd798feed0e5408837db5b830a17e63cc7d3f/awslabs_s3_tables_mcp_server-0.0.6-py3-none-any.whl", hash = "sha256:340627e49b78b00d2c45e0f376aeaf06e68373fab3d2963c633699ae90ab3a0c", size = 40611, upload-time = "2025-07-31T23:26:26.007Z" },
-]
-
-[[package]]
-name = "awslabs-sagemaker-ai-mcp-server"
-version = "0.0.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/e8/44/4880c13edfe579bc362bac7087b9cde80ef4be636b842282fc0cfc807e05/awslabs_sagemaker_ai_mcp_server-0.0.0.tar.gz", hash = "sha256:ee538874b0f2679bbe91e4cc1fd799c11464cc33657007af599ac86b83837765", size = 32290, upload-time = "2025-11-01T02:35:13.485Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/9e/23/1ecd42090d845e9ce2defb04f63a18238bb348fc065493e619b055039d85/awslabs_sagemaker_ai_mcp_server-0.0.0-py3-none-any.whl", hash = "sha256:4455a833f89a75d4ebfe53f228549ac770d915b062c2e31924eb3990d44b5884", size = 7209, upload-time = "2025-11-01T02:35:12.241Z" },
 ]
 
 [[package]]
