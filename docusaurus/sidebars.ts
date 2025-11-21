@@ -46,7 +46,6 @@ const sidebars: SidebarsConfig = {
             'servers/cdk-mcp-server',
             'servers/cfn-mcp-server',
             'servers/terraform-mcp-server',
-            'servers/sagemaker-ai-mcp-server',
             'servers/eks-mcp-server',
             'servers/ecs-mcp-server',
             'servers/finch-mcp-server',
@@ -65,7 +64,8 @@ const sidebars: SidebarsConfig = {
             'servers/amazon-qbusiness-anonymous-mcp-server',
             'servers/nova-canvas-mcp-server',
             'servers/aws-bedrock-custom-model-import-mcp-server',
-            'servers/amazon-bedrock-agentcore-mcp-server'
+            'servers/amazon-bedrock-agentcore-mcp-server',
+            'servers/sagemaker-ai-mcp-server',
           ],
         },
         {
