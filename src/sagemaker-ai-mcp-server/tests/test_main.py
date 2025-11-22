@@ -22,16 +22,16 @@ from unittest.mock import ANY, MagicMock, patch
 # Mock modules that might not be installed
 sys.modules['requests_auth_aws_sigv4'] = MagicMock()
 sys.modules['requests'] = MagicMock()
-from awslabs.sagemaker_hyperpod_mcp_server.server import create_server, main
+from awslabs.sagemaker_ai_mcp_server.server import create_server, main
 
 
 class TestMain:
     """Tests for the main function."""
 
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodClusterNodeHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.create_server')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.logger')
+    @patch('awslabs.sagemaker_ai_mcp_server.server.HyperPodClusterNodeHandler')
+    @patch('awslabs.sagemaker_ai_mcp_server.server.HyperPodStackHandler')
+    @patch('awslabs.sagemaker_ai_mcp_server.server.create_server')
+    @patch('awslabs.sagemaker_ai_mcp_server.server.logger')
     @patch('sys.argv', ['awslabs.sagemaker-ai-mcp-server'])
     def test_main_default(
         self,
@@ -66,10 +66,10 @@ class TestMain:
         # Check that the function returns the MCP instance
         assert result == mock_mcp
 
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodClusterNodeHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.create_server')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.logger')
+    @patch('awslabs.sagemaker_ai_mcp_server.server.HyperPodClusterNodeHandler')
+    @patch('awslabs.sagemaker_ai_mcp_server.server.HyperPodStackHandler')
+    @patch('awslabs.sagemaker_ai_mcp_server.server.create_server')
+    @patch('awslabs.sagemaker_ai_mcp_server.server.logger')
     @patch('sys.argv', ['awslabs.sagemaker-ai-mcp-server', '--allow-write'])
     def test_main_with_write_access(
         self,
@@ -111,10 +111,10 @@ class TestMain:
         # Check that the function returns the MCP instance
         assert result == mock_mcp
 
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodClusterNodeHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.create_server')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.logger')
+    @patch('awslabs.sagemaker_ai_mcp_server.server.HyperPodClusterNodeHandler')
+    @patch('awslabs.sagemaker_ai_mcp_server.server.HyperPodStackHandler')
+    @patch('awslabs.sagemaker_ai_mcp_server.server.create_server')
+    @patch('awslabs.sagemaker_ai_mcp_server.server.logger')
     @patch('sys.argv', ['awslabs.sagemaker-ai-mcp-server', '--allow-sensitive-data-access'])
     def test_main_with_sensitive_data_access(
         self,
@@ -156,10 +156,10 @@ class TestMain:
         # Check that the function returns the MCP instance
         assert result == mock_mcp
 
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodClusterNodeHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.HyperPodStackHandler')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.create_server')
-    @patch('awslabs.sagemaker_hyperpod_mcp_server.server.logger')
+    @patch('awslabs.sagemaker_ai_mcp_server.server.HyperPodClusterNodeHandler')
+    @patch('awslabs.sagemaker_ai_mcp_server.server.HyperPodStackHandler')
+    @patch('awslabs.sagemaker_ai_mcp_server.server.create_server')
+    @patch('awslabs.sagemaker_ai_mcp_server.server.logger')
     @patch(
         'sys.argv',
         [
@@ -208,7 +208,7 @@ class TestMain:
 
     def test_create_server(self):
         """Test the create_server function."""
-        with patch('awslabs.sagemaker_hyperpod_mcp_server.server.FastMCP') as mock_fastmcp:
+        with patch('awslabs.sagemaker_ai_mcp_server.server.FastMCP') as mock_fastmcp:
             # Call the create_server function
             create_server()
 
@@ -226,7 +226,7 @@ class TestMain:
 
         # Get the source code of the module
         import inspect
-        from awslabs.sagemaker_hyperpod_mcp_server import server
+        from awslabs.sagemaker_ai_mcp_server import server
 
         # Get the source code
         source = inspect.getsource(server)

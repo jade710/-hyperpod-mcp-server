@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""SageMaker HyperPod MCP tools - Part of awslabs.sagemaker-ai-mcp-server"""
+# This file is part of the awslabs namespace.
+# It is intentionally minimal to support PEP 420 namespace packages.
+
+"""awslabs.sagemaker-ai-mcp-server"""
 
 __version__ = '0.0.0'

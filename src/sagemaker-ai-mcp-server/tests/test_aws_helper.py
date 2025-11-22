@@ -16,7 +16,7 @@
 
 import os
 from awslabs import __version__
-from awslabs.sagemaker_hyperpod_mcp_server.aws_helper import AwsHelper
+from awslabs.sagemaker_ai_mcp_server.aws_helper import AwsHelper
 from unittest.mock import ANY, MagicMock, patch
 
 

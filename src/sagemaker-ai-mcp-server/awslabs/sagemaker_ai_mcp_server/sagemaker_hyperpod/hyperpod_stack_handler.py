@@ -16,8 +16,8 @@
 
 import json
 import yaml  # type: ignore
-from awslabs.sagemaker_hyperpod_mcp_server.aws_helper import AwsHelper
-from awslabs.sagemaker_hyperpod_mcp_server.consts import (
+from awslabs.sagemaker_ai_mcp_server.aws_helper import AwsHelper
+from awslabs.sagemaker_ai_mcp_server.consts import (
     CAPABILITY_AUTO_EXPAND,
     CFN_CAPABILITY_IAM,
     CFN_CAPABILITY_NAMED_IAM,
@@ -34,8 +34,8 @@ from awslabs.sagemaker_hyperpod_mcp_server.consts import (
     STACK_OPERATIONS,
     SUPPORTED_REGIONS,
 )
-from awslabs.sagemaker_hyperpod_mcp_server.logging_helper import LogLevel, log_with_request_id
-from awslabs.sagemaker_hyperpod_mcp_server.models import (
+from awslabs.sagemaker_ai_mcp_server.logging_helper import LogLevel, log_with_request_id
+from awslabs.sagemaker_ai_mcp_server.sagemaker_hyperpod.models import (
     DeleteStackResponse,
     DeployStackResponse,
     DescribeStackResponse,

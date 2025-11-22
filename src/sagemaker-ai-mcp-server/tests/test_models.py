@@ -14,7 +14,7 @@
 # ruff: noqa: D101, D102, D103
 """Tests for the models module."""
 
-from awslabs.sagemaker_hyperpod_mcp_server.models import (
+from awslabs.sagemaker_ai_mcp_server.sagemaker_hyperpod.models import (
     AlarmDetails,
     BatchDeleteClusterNodesError,
     BatchDeleteClusterNodesResponse,

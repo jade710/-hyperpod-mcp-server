@@ -17,8 +17,8 @@
 import json
 import pytest
 import yaml  # type: ignore
-from awslabs.sagemaker_hyperpod_mcp_server.aws_helper import AwsHelper
-from awslabs.sagemaker_hyperpod_mcp_server.consts import (
+from awslabs.sagemaker_ai_mcp_server.aws_helper import AwsHelper
+from awslabs.sagemaker_ai_mcp_server.consts import (
     CAPABILITY_AUTO_EXPAND,
     CFN_CAPABILITY_IAM,
     CFN_CAPABILITY_NAMED_IAM,
@@ -26,8 +26,10 @@ from awslabs.sagemaker_hyperpod_mcp_server.consts import (
     CFN_STACK_TAG_KEY,
     CFN_STACK_TAG_VALUE,
 )
-from awslabs.sagemaker_hyperpod_mcp_server.hyperpod_stack_handler import HyperPodStackHandler
-from awslabs.sagemaker_hyperpod_mcp_server.models import (
+from awslabs.sagemaker_ai_mcp_server.sagemaker_hyperpod.hyperpod_stack_handler import (
+    HyperPodStackHandler,
+)
+from awslabs.sagemaker_ai_mcp_server.sagemaker_hyperpod.models import (
     DeleteStackResponse,
     DeployStackResponse,
     DescribeStackResponse,
@@ -933,7 +935,9 @@ class TestHyperPodStackHandler:
 
     def test_construct_cfn_tag_mapping_node(self):
         """Test construct_cfn_tag with mapping node."""
-        from awslabs.sagemaker_hyperpod_mcp_server.hyperpod_stack_handler import construct_cfn_tag
+        from awslabs.sagemaker_ai_mcp_server.sagemaker_hyperpod.hyperpod_stack_handler import (
+            construct_cfn_tag,
+        )
 
         loader = MagicMock()
         loader.construct_mapping.return_value = {'key': 'value'}
@@ -945,7 +949,9 @@ class TestHyperPodStackHandler:
 
     def test_construct_cfn_tag_sequence_node(self):
         """Test construct_cfn_tag with sequence node."""
-        from awslabs.sagemaker_hyperpod_mcp_server.hyperpod_stack_handler import construct_cfn_tag
+        from awslabs.sagemaker_ai_mcp_server.sagemaker_hyperpod.hyperpod_stack_handler import (
+            construct_cfn_tag,
+        )
 
         loader = MagicMock()
         loader.construct_sequence.return_value = ['item1', 'item2']
@@ -957,7 +963,9 @@ class TestHyperPodStackHandler:
 
     def test_construct_cfn_tag_unknown_node(self):
         """Test construct_cfn_tag with unknown node type."""
-        from awslabs.sagemaker_hyperpod_mcp_server.hyperpod_stack_handler import construct_cfn_tag
+        from awslabs.sagemaker_ai_mcp_server.sagemaker_hyperpod.hyperpod_stack_handler import (
+            construct_cfn_tag,
+        )
 
         loader = MagicMock()
         node = object()  # Unknown node type
@@ -1070,7 +1078,9 @@ class TestHyperPodStackHandler:
 
     def test_construct_cfn_tag_scalar_node(self):
         """Test construct_cfn_tag with scalar node."""
-        from awslabs.sagemaker_hyperpod_mcp_server.hyperpod_stack_handler import construct_cfn_tag
+        from awslabs.sagemaker_ai_mcp_server.sagemaker_hyperpod.hyperpod_stack_handler import (
+            construct_cfn_tag,
+        )
 
         loader = MagicMock()
         loader.construct_scalar.return_value = 'scalar_value'

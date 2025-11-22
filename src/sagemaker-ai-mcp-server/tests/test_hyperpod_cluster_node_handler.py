@@ -16,11 +16,11 @@
 
 import os
 import pytest
-from awslabs.sagemaker_hyperpod_mcp_server.aws_helper import AwsHelper
-from awslabs.sagemaker_hyperpod_mcp_server.hyperpod_cluster_node_handler import (
+from awslabs.sagemaker_ai_mcp_server.aws_helper import AwsHelper
+from awslabs.sagemaker_ai_mcp_server.sagemaker_hyperpod.hyperpod_cluster_node_handler import (
     HyperPodClusterNodeHandler,
 )
-from awslabs.sagemaker_hyperpod_mcp_server.models import (
+from awslabs.sagemaker_ai_mcp_server.sagemaker_hyperpod.models import (
     BatchDeleteClusterNodesResponse,
     ClusterInstanceStatusDetails,
     ClusterNodeDetails,
@@ -670,7 +670,7 @@ class TestHyperPodClusterNodeHandler:
             handler, 'get_sagemaker_client', return_value=mock_sagemaker_client
         ) as mock_get_client:
             # Create deployment config
-            from awslabs.sagemaker_hyperpod_mcp_server.models import (
+            from awslabs.sagemaker_ai_mcp_server.sagemaker_hyperpod.models import (
                 AlarmDetails,
                 CapacitySizeConfig,
                 DeploymentConfiguration,
@@ -1224,7 +1224,7 @@ class TestHyperPodClusterNodeHandler:
             handler, '_update_hp_cluster_software', return_value=mock_result
         ) as mock_handler:
             # Create deployment config and instance groups
-            from awslabs.sagemaker_hyperpod_mcp_server.models import (
+            from awslabs.sagemaker_ai_mcp_server.sagemaker_hyperpod.models import (
                 AlarmDetails,
                 CapacitySizeConfig,
                 DeploymentConfiguration,

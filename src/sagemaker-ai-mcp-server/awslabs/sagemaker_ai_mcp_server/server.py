@@ -26,10 +26,10 @@ Environment Variables:
 import argparse
 import os
 import sys
-from awslabs.sagemaker_hyperpod_mcp_server.hyperpod_cluster_node_handler import (
+from awslabs.sagemaker_ai_mcp_server.sagemaker_hyperpod.hyperpod_cluster_node_handler import (
     HyperPodClusterNodeHandler,
 )
-from awslabs.sagemaker_hyperpod_mcp_server.hyperpod_stack_handler import HyperPodStackHandler
+from awslabs.sagemaker_ai_mcp_server.sagemaker_hyperpod.hyperpod_stack_handler import HyperPodStackHandler
 from loguru import logger
 from mcp.server.fastmcp import FastMCP
 
